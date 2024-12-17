@@ -1,21 +1,20 @@
 using System.Drawing;
 using FractalPainting.Application.Models;
 using FractalPainting.Infrastructure.Common;
-using Color = FractalPainting.Application.Models.Color;
 using Point = FractalPainting.Application.Models.Point;
 using Rectangle = FractalPainting.Application.Models.Rectangle;
 
 namespace FractalPainting.Application.Fractals;
 
-public class DragonPainter(DragonSettings settings, IImageSettingsProvider imageSettingsProvider)
+public class DragonPainter(Palette palette, DragonSettings settings, IImageSettingsProvider imageSettingsProvider)
 {
     public IReadOnlyCollection<Figure> Paint()
     {
         var imageSettings = imageSettingsProvider.ImageSettings;
         var size = Math.Min(imageSettings.Width, imageSettings.Height) / 2.1f;
 
-        var backgroundColor = new Color(0, 0, 0);
-        var foregroundColor = new Color(255, 255, 0);
+        var backgroundColor = palette.BackgroundColor;
+        var foregroundColor = palette.PrimaryColor;
         
         var figures = new List<Figure>();
         figures.Add(new Rectangle(imageSettings.Width, imageSettings.Height, new Point(0, 0), backgroundColor));

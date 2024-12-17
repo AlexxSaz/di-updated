@@ -1,19 +1,13 @@
 ﻿using System.Net;
 using System.Text.Json;
 using FractalPainting.Infrastructure.Common;
-using FractalPainting.Infrastructure.Injection;
 using FractalPainting.Infrastructure.UiActions;
 
 namespace FractalPainting.Application.Actions;
 
-public class UpdatePaletteSettingsAction : IApiAction, INeed<Palette>
+public class UpdatePaletteSettingsAction(Palette palette) : IApiAction
 {
-    private Palette palette = null!;
-
-    public void SetDependency(Palette dependency)
-    {
-        palette = dependency;
-    }
+    private Palette palette = palette;
 
     public string Endpoint => "/palette";
 
