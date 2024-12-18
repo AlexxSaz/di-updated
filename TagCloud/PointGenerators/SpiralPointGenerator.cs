@@ -3,20 +3,8 @@ using TagCloud.Extensions;
 
 namespace TagCloud.PointGenerators;
 
-public class SpiralPointGenerator : IPointGenerator
+public class SpiralPointGenerator(AppConfig appConfig, Size centerPoint) : IPointGenerator
 {
-    private const double AngleStep = Math.PI / 360;
-    private readonly double _radiusStep;
-    private readonly Size _center;
-
-    public SpiralPointGenerator(Point centerPoint, double radiusStep = 0.01)
-    {
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(radiusStep);
-
-        _radiusStep = radiusStep;
-        _center = new Size(centerPoint);
-    }
-
     public IEnumerable<Point> GeneratePoint()
     {
         var radius = 0d;
@@ -26,10 +14,10 @@ public class SpiralPointGenerator : IPointGenerator
         {
             var newX = (int)(radius * Math.Cos(angle));
             var newY = (int)(radius * Math.Sin(angle));
-            var newPoint = new Point(newX, newY).MoveTo(_center);
+            var newPoint = new Point(newX, newY).MoveTo(centerPoint);
 
-            radius += _radiusStep;
-            angle += AngleStep;
+            radius += appConfig.RadiusStep;
+            angle += appConfig.AngleStep;
 
             yield return newPoint;
         }

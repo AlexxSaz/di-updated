@@ -1,44 +1,31 @@
 using System.Drawing;
+using System.Drawing.Imaging;
 using TagCloud.Extensions;
 using TagCloud.Tags;
 
 namespace TagCloud.TagCloudVisualizations;
 
-public class SimpleTagCloudVisualization : ITagCloudVisualization
+public class SimpleTagCloudVisualization(AppConfig appConfig, ITagCloud tagCloud) : ITagCloudVisualization
 {
-    private static readonly Random Random = new();
-
-    private static Pen GetRandomPen =>
-        new(Color.FromArgb(
-            Random.Next(0, 255),
-            Random.Next(0, 255),
-            Random.Next(0, 255)));
-    
-    private readonly List<ITag> tags = [];
-    
-    public void AddTag(ITag tag) => tags.Add(tag);
-
-    public void SaveTagCloudAsBitmap(ITagCloud tagCloud, string file)
+    public void SaveImage()
     {
         const int rectangleOutline = 1;
+        var bitmap = new Bitmap(
+            appConfig.Width + rectangleOutline,
+            appConfig.Height + rectangleOutline);
+        using var graphics = Graphics.FromImage(bitmap);
+        var brushColor = ColorTranslator.FromHtml(appConfig.FontColor);
+        using var brush = new SolidBrush(brushColor);
 
-        using var bitmap = new Bitmap(
-            tagCloud.Width + rectangleOutline,
-            tagCloud.Height + rectangleOutline);
-        var frameShift = new Size(-tagCloud.LeftBound, -tagCloud.TopBound);
-
-        using (var graphics = Graphics.FromImage(bitmap))
+        foreach (var tag in tagCloud.Tags)
         {
-            foreach (var rectangleInFrame in tags.Select(tag =>
-                         MoveRectangleToImageFrame(tag.Frame, frameShift)))
-            {
-                graphics.DrawRectangle(GetRandomPen, rectangleInFrame);
-            }
+            using var font = new Font(appConfig.FontFamily, tag.FontSize);
+            var x = tag.Frame.X + appConfig.Width / 2;
+            var y = tag.Frame.Y + appConfig.Height / 2;
+            graphics.DrawString(tag.Value, font, brush, x, y);
         }
 
-        bitmap.Save(file);
+        var path = appConfig.Filename;
+        bitmap.Save(path, ImageFormat.Png);
     }
-
-    private static Rectangle MoveRectangleToImageFrame(Rectangle rectangle, Size imageCenter) =>
-        new(rectangle.Location.MoveTo(imageCenter), rectangle.Size);
 }
