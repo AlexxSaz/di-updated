@@ -1,11 +1,10 @@
 ﻿using System.Drawing;
 using TagCloud.Extensions;
 using TagCloud.PointGenerators;
-using TagsCloudVisualization.Interfaces;
 
 namespace TagCloud.CloudLayouts;
 
-public class CircularCloudLayout : ICloudLayouter
+public class CircularCloudLayout : ICloudLayout
 {
     private readonly IEnumerator<Point> _pointGeneratorIterator;
     private readonly List<Rectangle> _rectangles = [];

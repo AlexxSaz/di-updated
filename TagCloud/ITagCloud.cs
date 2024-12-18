@@ -1,18 +1,17 @@
 ﻿using System.Drawing;
+using TagCloud.Tags;
 
 namespace TagCloud;
 
 public interface ITagCloud
 {
-    public List<Rectangle> Rectangles { get; }
-    
-    public int Width { get; }
-    
-    public int Height { get; }
-    
-    public int LeftBound { get; }
-    
-    public int TopBound { get; }
-    
-    public void AddNextRectangleWith(Size size);
+    int Width { get; }
+
+    int Height { get; }
+
+    int LeftBound { get; }
+
+    int TopBound { get; }
+
+    void SetNewSize(Rectangle frame);
 }
