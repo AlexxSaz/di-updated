@@ -6,8 +6,8 @@ public class SingleWordInRowFileReader : IFileReader
 
     public IEnumerable<string> Read(string path) =>
         IsValidFile(path) 
-            ? _defaultWords
-            : File.ReadAllLines(path);
+            ? File.ReadAllLines(path)
+            : _defaultWords;
 
     private static bool IsValidFile(string path)
     {
