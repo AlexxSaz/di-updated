@@ -5,7 +5,7 @@ using TagCloud.Tags;
 
 namespace TagCloud.TagCloudVisualizations;
 
-public class SimpleTagCloudVisualization(AppConfig appConfig, ITagCloud tagCloud) : ITagCloudVisualization
+public class SimpleTagCloudPainter(AppConfig appConfig, ITagCloud tagCloud) : ITagCloudPainter
 {
     public void SaveImage()
     {

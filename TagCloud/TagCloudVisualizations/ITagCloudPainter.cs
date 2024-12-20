@@ -1,6 +1,6 @@
 namespace TagCloud.TagCloudVisualizations;
 
-public interface ITagCloudVisualization
+public interface ITagCloudPainter
 {
     void SaveImage();
 }

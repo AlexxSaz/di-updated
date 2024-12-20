@@ -6,7 +6,7 @@ using TagCloud.WordHandlers;
 namespace TagCloud;
 
 public class App(
-    ITagCloudVisualization visualization,
+    ITagCloudPainter painter,
     ICloudLayout layout,
     IFileReader fileReader,
     IWordHandler wordHandler,
