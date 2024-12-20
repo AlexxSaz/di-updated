@@ -1,4 +1,4 @@
-﻿using TagCloud.CloudLayouts;
+﻿using TagCloud.Logic.CloudLayouts;
 using TagCloud.Readers;
 using TagCloud.TagCloudVisualizations;
 using TagCloud.WordHandlers;

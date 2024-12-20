@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace TagCloud.CloudLayouts;
+namespace TagCloud.Logic.CloudLayouts;
 
 public interface ICloudLayout
 {

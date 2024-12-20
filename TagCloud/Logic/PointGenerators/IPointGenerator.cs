@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace TagCloud.PointGenerators;
+namespace TagCloud.Logic.PointGenerators;
 
 public interface IPointGenerator
 {

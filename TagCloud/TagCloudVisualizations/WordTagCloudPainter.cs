@@ -1,6 +1,6 @@
 using System.Drawing;
 using System.Drawing.Imaging;
-using TagCloud.Extensions;
+using TagCloud.Logic.Containers;
 using TagCloud.Tags;
 
 namespace TagCloud.TagCloudVisualizations;

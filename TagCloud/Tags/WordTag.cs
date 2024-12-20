@@ -1,5 +1,4 @@
 using System.Drawing;
-using TagCloud.Extensions;
 
 namespace TagCloud.Tags;
 

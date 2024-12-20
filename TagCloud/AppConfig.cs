@@ -1,3 +1,4 @@
+using System.Drawing;
 using TagCloud.Readers;
 
 namespace TagCloud;
@@ -15,6 +16,8 @@ public class AppConfig(IFileReader fileReader)
 
     public string BackgroundColor { get; set; } = "#FFFFFF";
     public string Filename { get; set; } = "TagCloud.png";
+
+    public Point Center { get; set; } = new();
 
     public HashSet<string> BoringWords =>
         fileReader.Read(BoringWordsFilePath).ToHashSet();

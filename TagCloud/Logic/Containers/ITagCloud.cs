@@ -1,8 +1,7 @@
-﻿using System.Drawing;
-using TagCloud.CloudLayouts;
+﻿using TagCloud.Logic.CloudLayouts;
 using TagCloud.Tags;
 
-namespace TagCloud;
+namespace TagCloud.Logic.Containers;
 
 public interface ITagCloud
 {
