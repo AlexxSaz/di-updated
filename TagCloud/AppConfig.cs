@@ -14,7 +14,7 @@ public class AppConfig(IFileReader fileReader)
     public string FontFamily { get; set; } = "Arial";
     public string FontColor { get; set; } = "#000000";
 
-    public string BackgroundColor { get; set; } = "#FFFFFF";
+    public string BackgroundColor { get; set; } = "#FF0000";
     public string Filename { get; set; } = "TagCloud.png";
 
     public Point Center { get; set; } = new();

@@ -5,7 +5,7 @@ public class SingleWordInRowFileReader : IFileReader
     private readonly string[] _defaultWords = "Несколько дефолтных слов".Split();
 
     public IEnumerable<string> Read(string path) =>
-        IsValidFile(path) 
+        IsValidFile(path)
             ? File.ReadAllLines(path)
             : _defaultWords;
 

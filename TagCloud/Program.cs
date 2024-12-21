@@ -4,7 +4,7 @@ using TagCloud.Logic.CloudLayouts;
 using TagCloud.Logic.Containers;
 using TagCloud.Logic.PointGenerators;
 using TagCloud.Readers;
-using TagCloud.TagCloudVisualizations;
+using TagCloud.TagCloudPainters;
 using TagCloud.Tags;
 using TagCloud.WordHandlers;
 
@@ -15,7 +15,7 @@ public static class Program
     public static void Main(string[] args)
     {
         var builder = new ContainerBuilder();
-        
+
         builder.RegisterType<SingleWordInRowFileReader>().As<IFileReader>().SingleInstance();
         builder.RegisterType<WordSizeCalculator>().As<ISizeCalculator>().SingleInstance();
         builder.RegisterType<WordTagCloudPainter>().As<ITagCloudPainter>().SingleInstance();
@@ -26,10 +26,8 @@ public static class Program
         builder.RegisterType<SpiralPointGenerator>().As<IPointGenerator>().SingleInstance();
         builder.RegisterType<AppConfig>();
         var container = builder.Build();
-        
+
         var tagCloudPainter = container.Resolve<ITagCloudPainter>();
         tagCloudPainter.SaveImage();
     }
-
-
 }

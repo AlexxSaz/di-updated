@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using TagCloud.Calculators;
+﻿using TagCloud.Calculators;
 using TagCloud.Logic.CloudLayouts;
 using TagCloud.Readers;
 using TagCloud.Tags;
@@ -22,16 +21,10 @@ public class WordTagCloud(
 
     private static List<ITag> GetTags(IFileReader reader, IWordHandler wordHandler, ISizeCalculator sizeCalculator)
     {
-        var result = new List<ITag>();
         var words = reader.Read("aboutKonturWords.txt");
         var handledWords = wordHandler.Handle(words);
-        var dictHandledWords = sizeCalculator.Calculate(handledWords);
-        foreach (var wordPair in dictHandledWords)
-        {
-            var tag = new WordTag(wordPair.Key, wordPair.Value, Rectangle.Empty);
-            result.Add(tag);
-        }
+        var tags = sizeCalculator.Calculate(handledWords);
 
-        return result;
+        return tags;
     }
 }

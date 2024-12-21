@@ -1,4 +1,4 @@
-namespace TagCloud.TagCloudVisualizations;
+namespace TagCloud.TagCloudPainters;
 
 public interface ITagCloudPainter
 {

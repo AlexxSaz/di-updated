@@ -3,7 +3,7 @@ using System.Drawing.Imaging;
 using TagCloud.Logic.Containers;
 using TagCloud.Tags;
 
-namespace TagCloud.TagCloudVisualizations;
+namespace TagCloud.TagCloudPainters;
 
 public class WordTagCloudPainter(AppConfig appConfig, ITagCloud tagCloud) : ITagCloudPainter
 {
@@ -14,8 +14,10 @@ public class WordTagCloudPainter(AppConfig appConfig, ITagCloud tagCloud) : ITag
             tagCloud.Width + rectangleOutline,
             tagCloud.Height + rectangleOutline);
         using var graphics = Graphics.FromImage(bitmap);
-        var brushColor = ColorTranslator.FromHtml(appConfig.FontColor);
-        using var brush = new SolidBrush(brushColor);
+        var fontColor = ColorTranslator.FromHtml(appConfig.FontColor);
+        var backgroundColor = ColorTranslator.FromHtml(appConfig.BackgroundColor);
+        graphics.Clear(backgroundColor);
+        using var brush = new SolidBrush(fontColor);
 
         foreach (var tag in tagCloud.Tags)
         {

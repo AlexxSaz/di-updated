@@ -1,24 +1,42 @@
-﻿namespace TagCloud.Calculators;
+﻿using System.Drawing;
+using TagCloud.Tags;
+
+namespace TagCloud.Calculators;
 
 public class WordSizeCalculator : ISizeCalculator
 {
-    public Dictionary<string, int> Calculate(IEnumerable<string> words, int maxSize = 24, int minSize = 8)
+    public List<ITag> Calculate(IEnumerable<string> words, int maxSize = 24, int minSize = 8)
     {
-        var result = new Dictionary<string, int>();
+        var result = new List<ITag>();
+        var dictionaryWithWordFrequency = GetDictionaryWithWordFrequency(words);
+        var maxFrequency = dictionaryWithWordFrequency.Values.Max();
 
-        foreach (var word in words)
+        foreach (var wordCountPair in dictionaryWithWordFrequency)
         {
-            result.TryAdd(word, 0);
-            result[word]++;
-        }
-
-        foreach (var word in result.Keys)
-        {
-            result[word] = GetSize(result[word], maxSize, minSize);
+            var normalizedFrequency = GetNormalizedFrequency(wordCountPair.Value, maxFrequency);
+            var size = GetSize(normalizedFrequency, maxSize, minSize);
+            var wordTag = new WordTag(wordCountPair.Key, size, Rectangle.Empty);
+            result.Add(wordTag);
         }
 
         return result;
     }
 
-    private static int GetSize(int count, int maxSize, int minSize) => count * (maxSize - minSize) / 2 + minSize;
+    private static Dictionary<string, int> GetDictionaryWithWordFrequency(IEnumerable<string> words)
+    {
+        var wordFrequencyDictionary = new Dictionary<string, int>();
+        foreach (var word in words)
+        {
+            wordFrequencyDictionary.TryAdd(word, 0);
+            wordFrequencyDictionary[word]++;
+        }
+
+        return wordFrequencyDictionary;
+    }
+
+    private static int GetSize(double normalizedFrequency, int maxSize, int minSize) =>
+        (int)(normalizedFrequency * (maxSize - minSize) / 2 + minSize);
+
+    private static double GetNormalizedFrequency(int count, int maxCount) =>
+        Math.Log10(count + 1) / Math.Log10(maxCount + 1);
 }

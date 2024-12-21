@@ -9,6 +9,7 @@ public class CircularCloudLayout(IPointGenerator pointGenerator) : ICloudLayout
     private readonly IEnumerator<Point> _pointGeneratorIterator = pointGenerator
         .GeneratePoint()
         .GetEnumerator();
+
     private readonly List<Rectangle> _rectangles = [];
 
     public Rectangle PutNextRectangle(Size size)

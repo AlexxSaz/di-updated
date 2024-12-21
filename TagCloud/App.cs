@@ -1,6 +1,6 @@
 ﻿using TagCloud.Logic.CloudLayouts;
 using TagCloud.Readers;
-using TagCloud.TagCloudVisualizations;
+using TagCloud.TagCloudPainters;
 using TagCloud.WordHandlers;
 
 namespace TagCloud;
