@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using TagCloud;
 using TagCloud.Readers;
 using TagCloud.WordHandlers;
 
@@ -22,8 +21,7 @@ public class WordHandlerShould
     [Test]
     public void Handle_ShouldReturnWordsInLowerCase_AfterExecutionWithUpperCaseWords()
     {
-        var appConfig = new AppConfig(Reader);
-        var wordHandler = new SimpleWordHandler(appConfig);
+        var wordHandler = new SimpleWordHandler(Reader);
         var expectedUpperCaseWords = new HashSet<string>
         {
             "ясно", "понятно", "слово", "два", "двадцатьдва"
@@ -37,8 +35,7 @@ public class WordHandlerShould
     [Test]
     public void Handle_ShouldExcludeBoringWords_AfterExecution()
     {
-        var appConfig = new AppConfig(Reader);
-        var wordHandler = new SimpleWordHandler(appConfig);
+        var wordHandler = new SimpleWordHandler(Reader);
         var expectedGoodWords = new HashSet<string>
         {
             "привет", "мир", "контур", "компания", "лучшая"

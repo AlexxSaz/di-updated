@@ -1,13 +1,14 @@
 ﻿using TagCloud.Calculators;
+using TagCloud.Infrastructure;
+using TagCloud.Infrastructure.Tags;
 using TagCloud.Logic.CloudLayouts;
 using TagCloud.Readers;
-using TagCloud.Tags;
 using TagCloud.WordHandlers;
 
 namespace TagCloud.Logic.Containers;
 
 public class WordTagCloud(
-    AppConfig appConfig,
+    ImageSettings imageSettings,
     ICloudLayout cloudLayout,
     ISizeCalculator sizeCalculator,
     IFileReader reader,
@@ -16,8 +17,8 @@ public class WordTagCloud(
     public List<IWordTag> Tags { get; set; } = GetTags(reader, wordHandler, sizeCalculator);
 
     public ICloudLayout CloudLayout => cloudLayout;
-    public int Width => appConfig.Width;
-    public int Height => appConfig.Height;
+    public int Width => imageSettings.Width;
+    public int Height => imageSettings.Height;
 
     private static List<IWordTag> GetTags(IFileReader reader, IWordHandler wordHandler, ISizeCalculator sizeCalculator)
     {

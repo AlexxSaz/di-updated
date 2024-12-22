@@ -2,22 +2,21 @@
 using FluentAssertions;
 using TagCloud;
 using TagCloud.Extensions;
+using TagCloud.Infrastructure;
 using TagCloud.Logic.PointGenerators;
-using TagCloud.Readers;
 
 namespace TagCloudTests;
 
 public class SpiralPointGeneratorShould
 {
-    private readonly Point _defaultCenter = AppConfig.Center;
+    private static readonly LogicSettings LogicSettings = new();
+    private readonly Point _defaultCenter = LogicSettings.Center;
     private readonly Random _random = new();
-    private static readonly IFileReader Reader = new SingleWordInRowFileReader();
-    private static readonly AppConfig AppConfig = new(Reader);
 
     [Test]
     public void GetNewPoint_ReturnCenter_AfterFirstExecution()
     {
-        var pointGenerator = new SpiralPointGenerator(AppConfig);
+        var pointGenerator = new SpiralPointGenerator(LogicSettings);
         using var newPointIterator = pointGenerator
             .GeneratePoint()
             .GetEnumerator();
@@ -33,7 +32,7 @@ public class SpiralPointGeneratorShould
     [Repeat(20)]
     public void GetNewPoint_ReturnPointWithGreaterRadius_AfterManyExecutions()
     {
-        var newPointGenerator = new SpiralPointGenerator(AppConfig);
+        var newPointGenerator = new SpiralPointGenerator(LogicSettings);
         var countOfPoints = _random.Next(10, 200);
         var points = newPointGenerator
             .GeneratePoint()

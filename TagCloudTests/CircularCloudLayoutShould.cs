@@ -2,9 +2,9 @@
 using FluentAssertions;
 using TagCloud;
 using TagCloud.Extensions;
+using TagCloud.Infrastructure;
 using TagCloud.Logic.CloudLayouts;
 using TagCloud.Logic.PointGenerators;
-using TagCloud.Readers;
 using TagCloudTests.SizeGenerator;
 
 [assembly: Parallelizable(ParallelScope.Children)]
@@ -16,19 +16,18 @@ public class CircularCloudLayoutShould
     private readonly Point _defaultCenter = new(0, 0);
     private readonly Random _random = new();
     private readonly ISizesGenerator _defaultSizesGenerator = new RandomSizesGenerator();
-    private static readonly IFileReader Reader = new SingleWordInRowFileReader();
-    private static readonly AppConfig AppConfig = new(Reader);
+    private static readonly LogicSettings LogicSettings = new();
 
     [Test]
     [Repeat(5)]
     public void PutNextRectangle_ReturnRectangleWithExpectedLocation_AfterFirstExecution()
     {
-        var expectedCenter = AppConfig.Center;
+        var expectedCenter = LogicSettings.Center;
         var rectangleSize = _defaultSizesGenerator
             .GenerateSize()
             .Take(1)
             .First();
-        var pointGenerator = new SpiralPointGenerator(AppConfig);
+        var pointGenerator = new SpiralPointGenerator(LogicSettings);
         var cloudLayout = new CircularCloudLayout(pointGenerator);
 
         var actualRectangle = cloudLayout.PutNextRectangle(rectangleSize);
@@ -44,7 +43,7 @@ public class CircularCloudLayoutShould
     public void PutNextRectangle_ThrowArgumentOutOfRangeException_AfterExecutionWith(int width, int height)
     {
         var rectangleSize = new Size(width, height);
-        var pointGenerator = new SpiralPointGenerator(AppConfig);
+        var pointGenerator = new SpiralPointGenerator(LogicSettings);
         var circularCloudLayout = new CircularCloudLayout(pointGenerator);
 
         var executePutNewRectangle = () =>
@@ -63,7 +62,7 @@ public class CircularCloudLayoutShould
         var rectangleSizes = _defaultSizesGenerator
             .GenerateSize()
             .Take(_random.Next(10, 200));
-        var pointGenerator = new SpiralPointGenerator(AppConfig);
+        var pointGenerator = new SpiralPointGenerator(LogicSettings);
         var cloudLayout = new CircularCloudLayout(pointGenerator);
 
         var rectangles = rectangleSizes
@@ -85,7 +84,7 @@ public class CircularCloudLayoutShould
         var rectangleSizes = _defaultSizesGenerator
             .GenerateSize()
             .Take(_random.Next(100, 200));
-        var pointGenerator = new SpiralPointGenerator(AppConfig);
+        var pointGenerator = new SpiralPointGenerator(LogicSettings);
         var circularCloudLayout = new CircularCloudLayout(pointGenerator);
 
         var rectanglesList = rectangleSizes

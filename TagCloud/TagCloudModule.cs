@@ -1,11 +1,11 @@
 ﻿using Autofac;
 using TagCloud.Calculators;
+using TagCloud.Infrastructure.Tags;
 using TagCloud.Logic.CloudLayouts;
 using TagCloud.Logic.Containers;
 using TagCloud.Logic.PointGenerators;
 using TagCloud.Readers;
 using TagCloud.TagCloudPainters;
-using TagCloud.Tags;
 using TagCloud.WordHandlers;
 
 namespace TagCloud;

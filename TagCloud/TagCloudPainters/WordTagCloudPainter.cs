@@ -1,11 +1,12 @@
 using System.Drawing;
 using System.Drawing.Imaging;
+using TagCloud.Infrastructure;
+using TagCloud.Infrastructure.Tags;
 using TagCloud.Logic.Containers;
-using TagCloud.Tags;
 
 namespace TagCloud.TagCloudPainters;
 
-public class WordTagCloudPainter(AppConfig appConfig, ITagCloud tagCloud) : ITagCloudPainter
+public class WordTagCloudPainter(ImageSettings imageSettings, Palette palette, ITagCloud tagCloud) : ITagCloudPainter
 {
     public void SaveImage()
     {
@@ -14,14 +15,14 @@ public class WordTagCloudPainter(AppConfig appConfig, ITagCloud tagCloud) : ITag
             tagCloud.Width + rectangleOutline,
             tagCloud.Height + rectangleOutline);
         using var graphics = Graphics.FromImage(bitmap);
-        var fontColor = ColorTranslator.FromHtml(appConfig.FontColor);
-        var backgroundColor = ColorTranslator.FromHtml(appConfig.BackgroundColor);
+        var fontColor = palette.PrimaryColor;
+        var backgroundColor = palette.BackgroundColor;
         graphics.Clear(backgroundColor);
         using var brush = new SolidBrush(fontColor);
 
         foreach (var tag in tagCloud.Tags)
         {
-            using var font = new Font(appConfig.FontFamily, tag.FontSize);
+            using var font = new Font(imageSettings.FontFamily, tag.FontSize);
             var frame =
                 tagCloud.CloudLayout.PutNextRectangle(CalculateWordSize(graphics, tag, font));
             var x = frame.X + tagCloud.Width / 2;
@@ -29,7 +30,7 @@ public class WordTagCloudPainter(AppConfig appConfig, ITagCloud tagCloud) : ITag
             graphics.DrawString(tag.Value, font, brush, x, y);
         }
 
-        var path = appConfig.Filename;
+        var path = imageSettings.Filename;
         bitmap.Save(path, ImageFormat.Png);
     }
 

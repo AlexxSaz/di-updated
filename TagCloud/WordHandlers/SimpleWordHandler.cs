@@ -1,12 +1,17 @@
+using TagCloud.Readers;
+
 namespace TagCloud.WordHandlers;
 
-public class SimpleWordHandler(AppConfig appConfig) : IWordHandler
+public class SimpleWordHandler(IFileReader reader) : IWordHandler
 {
-    public IEnumerable<string> Handle(IEnumerable<string> words)
-    {
-        return words
+    private const string BoringWordsFilePath = "BoringWordsDictionary.txt";
+
+    private HashSet<string> BoringWords =>
+        reader.Read(BoringWordsFilePath).ToHashSet();
+
+    public IEnumerable<string> Handle(IEnumerable<string> words) =>
+        words
             .Select(word => word.ToLower())
             .Where(word => !string.IsNullOrWhiteSpace(word))
-            .Where(word => !appConfig.BoringWords.Contains(word));
-    }
+            .Where(word => !BoringWords.Contains(word));
 }

@@ -1,5 +1,5 @@
-﻿using TagCloud.Logic.CloudLayouts;
-using TagCloud.Tags;
+﻿using TagCloud.Infrastructure.Tags;
+using TagCloud.Logic.CloudLayouts;
 
 namespace TagCloud.Logic.Containers;
 

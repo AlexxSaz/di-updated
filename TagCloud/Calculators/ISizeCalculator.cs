@@ -1,4 +1,4 @@
-﻿using TagCloud.Tags;
+﻿using TagCloud.Infrastructure.Tags;
 
 namespace TagCloud.Calculators;
 

@@ -1,6 +1,4 @@
-using System.Drawing;
-
-namespace TagCloud.Tags;
+namespace TagCloud.Infrastructure.Tags;
 
 public interface IWordTag
 {
