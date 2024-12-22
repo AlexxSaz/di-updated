@@ -1,26 +1,39 @@
 using System.Drawing;
 using System.Drawing.Imaging;
+using TagCloud.Calculators;
 using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Tags;
+using TagCloud.Logic.CloudLayouts;
 using TagCloud.Logic.Containers;
+using TagCloud.Readers;
+using TagCloud.WordHandlers;
 
 namespace TagCloud.TagCloudPainters;
 
-public class WordTagCloudPainter(ImageSettings imageSettings, Palette palette, ITagCloud tagCloud) : ITagCloudPainter
+public class WordTagCloudPainter(
+    ITagCloud tagCloud,
+    IFileReader reader,
+    IWordHandler wordHandler,
+    ISizeCalculator sizeCalculator) : ITagCloudPainter
 {
-    public void SaveImage()
+    public void SaveImage(
+        ImageSettings imageSettings,
+        Palette palette,
+        SaveSettings saveSettings,
+        LogicSettings logicSettings)
     {
         const int rectangleOutline = 1;
         var bitmap = new Bitmap(
-            tagCloud.Width + rectangleOutline,
-            tagCloud.Height + rectangleOutline);
+            imageSettings.Width + rectangleOutline,
+            imageSettings.Height + rectangleOutline);
         using var graphics = Graphics.FromImage(bitmap);
         var fontColor = palette.PrimaryColor;
         var backgroundColor = palette.BackgroundColor;
         graphics.Clear(backgroundColor);
         using var brush = new SolidBrush(fontColor);
+        var tags = tagCloud.GetTags(reader.Read(saveSettings.InputTxtFile), wordHandler, sizeCalculator);
 
-        foreach (var tag in tagCloud.Tags)
+        foreach (var tag in tags)
         {
             using var font = new Font(imageSettings.FontFamily, tag.FontSize);
             var frame =
@@ -30,7 +43,7 @@ public class WordTagCloudPainter(ImageSettings imageSettings, Palette palette, I
             graphics.DrawString(tag.Value, font, brush, x, y);
         }
 
-        var path = imageSettings.Filename;
+        var path = saveSettings.OutputPngFile;
         bitmap.Save(path, ImageFormat.Png);
     }
 

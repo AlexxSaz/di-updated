@@ -1,10 +1,12 @@
 ﻿using System.Drawing;
+using TagCloud.Logic.CloudLayouts;
 
 namespace TagCloud.Infrastructure;
 
-public class LogicSettings
+public record LogicSettings
 {
-    public double RadiusStep { get; set; } = 0.01;
-    public double AngleStep { get; set; } = 0.01;
-    public Point Center { get; set; } = new();
+    public double RadiusStep { get; init; } = 0.01;
+    public double AngleStep { get; init; } = 0.01;
+    public Size Center { get; set; } = new();
+    public ICloudLayout CloudLayout { get; init; } = null!;
 }

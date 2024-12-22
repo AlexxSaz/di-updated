@@ -2,7 +2,7 @@
 
 namespace TagCloud.Infrastructure;
 
-public abstract class Palette
+public class Palette
 {
     public Color PrimaryColor { get; set; } = Color.Black;
     public Color SecondaryColor { get; set; } = Color.Gold;

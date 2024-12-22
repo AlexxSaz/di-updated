@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using FluentAssertions;
-using TagCloud;
 using TagCloud.Extensions;
 using TagCloud.Infrastructure;
 using TagCloud.Logic.CloudLayouts;

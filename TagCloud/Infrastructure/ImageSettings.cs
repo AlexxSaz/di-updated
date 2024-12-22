@@ -1,11 +1,12 @@
 using System.Drawing;
+using TagCloud.Logic.CloudLayouts;
+using TagCloud.Logic.PointGenerators;
 
 namespace TagCloud.Infrastructure;
 
-public class ImageSettings()
+public record ImageSettings
 {
-    public int Width { get; set; } = 800;
-    public int Height { get; set; } = 600;
-    public FontFamily FontFamily { get; set; } = new("Arial");
-    public string Filename { get; set; } = "TagCloud.png";
+    public int Width { get; init; } = 800;
+    public int Height { get; init; } = 600;
+    public FontFamily FontFamily { get; init; } = new("Arial");
 }

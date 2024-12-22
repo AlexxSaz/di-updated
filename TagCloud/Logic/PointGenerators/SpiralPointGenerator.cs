@@ -1,12 +1,23 @@
 ﻿using System.Drawing;
 using TagCloud.Extensions;
 using TagCloud.Infrastructure;
+using TagCloud.Infrastructure.Providers;
 
 namespace TagCloud.Logic.PointGenerators;
 
-public class SpiralPointGenerator(LogicSettings logicSettings) : IPointGenerator
+public class SpiralPointGenerator : IPointGenerator
 {
-    private readonly Size _centerPointSize = new(logicSettings.Center);
+    private readonly Size _centerPointSize;
+    private readonly double _angleStep;
+    private readonly double _radiusStep;
+
+    public SpiralPointGenerator(ILogicSettingsProvider logicSettingsProvider)
+    {
+        var logicSettings = logicSettingsProvider.GetLogicSettings();
+        _radiusStep = logicSettings.RadiusStep;
+        _angleStep = logicSettings.AngleStep;
+        _centerPointSize = logicSettings.Center;
+    }
 
     public IEnumerable<Point> GeneratePoint()
     {
@@ -19,8 +30,8 @@ public class SpiralPointGenerator(LogicSettings logicSettings) : IPointGenerator
             var newY = (int)(radius * Math.Sin(angle));
             var newPoint = new Point(newX, newY).MoveTo(_centerPointSize);
 
-            radius += logicSettings.RadiusStep;
-            angle += logicSettings.AngleStep;
+            radius += _radiusStep;
+            angle += _angleStep;
 
             yield return newPoint;
         }
