@@ -13,13 +13,13 @@ public class WordTagCloud(
     IFileReader reader,
     IWordHandler wordHandler) : ITagCloud
 {
-    public List<ITag> Tags { get; set; } = GetTags(reader, wordHandler, sizeCalculator);
+    public List<IWordTag> Tags { get; set; } = GetTags(reader, wordHandler, sizeCalculator);
 
     public ICloudLayout CloudLayout => cloudLayout;
     public int Width => appConfig.Width;
     public int Height => appConfig.Height;
 
-    private static List<ITag> GetTags(IFileReader reader, IWordHandler wordHandler, ISizeCalculator sizeCalculator)
+    private static List<IWordTag> GetTags(IFileReader reader, IWordHandler wordHandler, ISizeCalculator sizeCalculator)
     {
         var words = reader.Read("aboutKonturWords.txt");
         var handledWords = wordHandler.Handle(words);

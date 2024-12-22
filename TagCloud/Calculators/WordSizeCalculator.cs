@@ -5,9 +5,9 @@ namespace TagCloud.Calculators;
 
 public class WordSizeCalculator : ISizeCalculator
 {
-    public List<ITag> Calculate(IEnumerable<string> words, int maxSize = 24, int minSize = 8)
+    public List<IWordTag> Calculate(IEnumerable<string> words, int maxSize = 24, int minSize = 8)
     {
-        var result = new List<ITag>();
+        var result = new List<IWordTag>();
         var dictionaryWithWordFrequency = GetDictionaryWithWordFrequency(words);
         var maxFrequency = dictionaryWithWordFrequency.Values.Max();
 
@@ -15,7 +15,7 @@ public class WordSizeCalculator : ISizeCalculator
         {
             var normalizedFrequency = GetNormalizedFrequency(wordCountPair.Value, maxFrequency);
             var size = GetSize(normalizedFrequency, maxSize, minSize);
-            var wordTag = new WordTag(wordCountPair.Key, size, Rectangle.Empty);
+            var wordTag = new SimpleWordTag(wordCountPair.Key, size);
             result.Add(wordTag);
         }
 

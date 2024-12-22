@@ -5,7 +5,7 @@ namespace TagCloud.Logic.Containers;
 
 public interface ITagCloud
 {
-    List<ITag> Tags { get; set; }
+    List<IWordTag> Tags { get; set; }
     ICloudLayout CloudLayout { get; }
     int Width { get; }
     int Height { get; }

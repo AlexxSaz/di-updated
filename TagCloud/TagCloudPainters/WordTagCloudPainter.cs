@@ -22,18 +22,18 @@ public class WordTagCloudPainter(AppConfig appConfig, ITagCloud tagCloud) : ITag
         foreach (var tag in tagCloud.Tags)
         {
             using var font = new Font(appConfig.FontFamily, tag.FontSize);
-            var tagToPrint =
-                tag.SetFrame(tagCloud.CloudLayout.PutNextRectangle(CalculateWordSize(graphics, tag, font)));
-            var x = tagToPrint.Frame.X + tagCloud.Width / 2;
-            var y = tagToPrint.Frame.Y + tagCloud.Height / 2;
-            graphics.DrawString(tagToPrint.Value, font, brush, x, y);
+            var frame =
+                tagCloud.CloudLayout.PutNextRectangle(CalculateWordSize(graphics, tag, font));
+            var x = frame.X + tagCloud.Width / 2;
+            var y = frame.Y + tagCloud.Height / 2;
+            graphics.DrawString(tag.Value, font, brush, x, y);
         }
 
         var path = appConfig.Filename;
         bitmap.Save(path, ImageFormat.Png);
     }
 
-    private static Size CalculateWordSize(Graphics graphics, ITag viewWord, Font font)
+    private static Size CalculateWordSize(Graphics graphics, IWordTag viewWord, Font font)
     {
         var textSize = graphics.MeasureString(viewWord.Value, font);
         var viewWidth = (int)Math.Ceiling(textSize.Width);
