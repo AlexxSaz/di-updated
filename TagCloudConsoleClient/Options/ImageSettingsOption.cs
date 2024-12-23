@@ -11,10 +11,7 @@ public class ImageSettingsOption : IOption
     [Option('h', "height", HelpText = "Высота")]
     public int Height { get; set; } = 2000;
     
-    [Option('l', "layout", HelpText = "Высота")]
-    public int CloudLayout { get; set; } = 2000;
-    
-    [Option('h', "height", HelpText = "Высота")]
+    [Option('f', "font", HelpText = "Вид шрифта")]
     public int FontFamily { get; set; } = 2000;
 
     public SettingsType SettingsType => SettingsType.Image;

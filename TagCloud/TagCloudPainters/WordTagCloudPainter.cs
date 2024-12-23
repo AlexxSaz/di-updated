@@ -3,14 +3,13 @@ using System.Drawing.Imaging;
 using TagCloud.Calculators;
 using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Tags;
-using TagCloud.Logic.Containers;
+using TagCloud.Logic.CloudLayouts;
 using TagCloud.Readers;
 using TagCloud.WordHandlers;
 
 namespace TagCloud.TagCloudPainters;
 
 public class WordTagCloudPainter(
-    ITagCloud tagCloud,
     IFileReader reader,
     IWordHandler wordHandler,
     ISizeCalculator sizeCalculator) : ITagCloudPainter
@@ -22,6 +21,7 @@ public class WordTagCloudPainter(
         LogicSettings logicSettings)
     {
         const int rectangleOutline = 1;
+        var newLayout = new CircularCloudLayout(logicSettings);
         var bitmap = new Bitmap(
             imageSettings.Width + rectangleOutline,
             imageSettings.Height + rectangleOutline);
@@ -30,15 +30,15 @@ public class WordTagCloudPainter(
         var backgroundColor = palette.BackgroundColor;
         graphics.Clear(backgroundColor);
         using var brush = new SolidBrush(fontColor);
-        var tags = tagCloud.GetTags(reader.Read(saveSettings.InputTxtFile), wordHandler, sizeCalculator);
+        var tags = newLayout.GetTags(reader.Read(saveSettings.InputTxtFile), wordHandler, sizeCalculator);
 
         foreach (var tag in tags)
         {
             using var font = new Font(imageSettings.FontFamily, tag.FontSize);
             var frame =
-                tagCloud.CloudLayout.PutNextRectangle(CalculateWordSize(graphics, tag, font));
-            var x = frame.X + tagCloud.Width / 2;
-            var y = frame.Y + tagCloud.Height / 2;
+                newLayout.PutNextRectangle(CalculateWordSize(graphics, tag, font));
+            var x = frame.X + imageSettings.Width / 2;
+            var y = frame.Y + imageSettings.Height / 2;
             graphics.DrawString(tag.Value, font, brush, x, y);
         }
 

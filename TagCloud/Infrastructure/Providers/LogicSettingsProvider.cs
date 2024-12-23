@@ -1,4 +1,5 @@
-﻿using TagCloud.Infrastructure.Providers.Interfaces;
+﻿using System.Drawing;
+using TagCloud.Infrastructure.Providers.Interfaces;
 
 namespace TagCloud.Infrastructure.Providers;
 
@@ -14,4 +15,7 @@ public class LogicSettingsProvider : ILogicSettingsProvider
 
     public void SetAngleStep(double angleStep) =>
         _logicSettings = _logicSettings with { AngleStep = angleStep };
+    
+    public void SetCenterSize(Size centerSize) =>
+        _logicSettings = _logicSettings with { Center = centerSize };
 }

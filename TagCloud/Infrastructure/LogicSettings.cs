@@ -6,5 +6,5 @@ public record LogicSettings
 {
     public double RadiusStep { get; init; } = 0.01;
     public double AngleStep { get; init; } = 0.01;
-    public Size Center { get; set; } = new();
+    public Size Center { get; init; }
 }
