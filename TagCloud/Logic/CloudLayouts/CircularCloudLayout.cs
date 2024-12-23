@@ -23,11 +23,12 @@ public class CircularCloudLayout : ICloudLayout
             .GeneratePoint()
             .GetEnumerator();
     }
-    
-    public List<IWordTag> GetTags(IEnumerable<string> words, IWordHandler wordHandler, ISizeCalculator sizeCalculator)
+
+    public List<IWordTag> GetTags(IEnumerable<string> words, IWordHandler wordHandler, ISizeCalculator sizeCalculator,
+        ImageSettings imageSettings)
     {
         var handledWords = wordHandler.Handle(words);
-        return sizeCalculator.Calculate(handledWords);
+        return sizeCalculator.Calculate(handledWords, imageSettings.MaxFontSize, imageSettings.MinFontSize);
     }
 
     public Rectangle PutNextRectangle(Size size)

@@ -21,7 +21,7 @@ public class WordTagCloudPainter(
         LogicSettings logicSettings)
     {
         const int rectangleOutline = 1;
-        var newLayout = new CircularCloudLayout(logicSettings);
+        var cloudLayout = new CircularCloudLayout(logicSettings);
         var bitmap = new Bitmap(
             imageSettings.Width + rectangleOutline,
             imageSettings.Height + rectangleOutline);
@@ -30,13 +30,18 @@ public class WordTagCloudPainter(
         var backgroundColor = palette.BackgroundColor;
         graphics.Clear(backgroundColor);
         using var brush = new SolidBrush(fontColor);
-        var tags = newLayout.GetTags(reader.Read(saveSettings.InputTxtFile), wordHandler, sizeCalculator);
+        var words = reader.Read(saveSettings.InputTxtFile);
+        var tags = cloudLayout.GetTags(
+            words,
+            wordHandler,
+            sizeCalculator,
+            imageSettings);
 
         foreach (var tag in tags)
         {
             using var font = new Font(imageSettings.FontFamily, tag.FontSize);
             var frame =
-                newLayout.PutNextRectangle(CalculateWordSize(graphics, tag, font));
+                cloudLayout.PutNextRectangle(CalculateWordSize(graphics, tag, font));
             var x = frame.X + imageSettings.Width / 2;
             var y = frame.Y + imageSettings.Height / 2;
             graphics.DrawString(tag.Value, font, brush, x, y);

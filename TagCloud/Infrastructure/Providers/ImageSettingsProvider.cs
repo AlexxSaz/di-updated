@@ -17,4 +17,10 @@ public class ImageSettingsProvider : IImageSettingsProvider
 
     public void SetFontFamily(FontFamily fontFamily) =>
         _imageSettings = _imageSettings with { FontFamily = fontFamily };
+
+    public void SetMaxFontSize(int maxFontSize) =>
+        _imageSettings = _imageSettings with { MaxFontSize = maxFontSize };
+
+    public void SetMinFontSize(int minFontSize) =>
+        _imageSettings = _imageSettings with { MinFontSize = minFontSize };
 }
