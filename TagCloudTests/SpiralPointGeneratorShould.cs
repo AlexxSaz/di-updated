@@ -9,7 +9,7 @@ namespace TagCloudTests;
 public class SpiralPointGeneratorShould
 {
     private static readonly LogicSettings LogicSettings = new();
-    private readonly Point _defaultCenter = LogicSettings.Center;
+    private readonly Point _defaultCenter = new();
     private readonly Random _random = new();
 
     [Test]
