@@ -19,7 +19,8 @@ public class SimpleAppRunner : IAppRunner
         typeof(ImageSettingsOption),
         typeof(LogicSettingsOption),
         typeof(ColorSettingsOption),
-        typeof(SaveImageOption)
+        typeof(SaveImageOption),
+        typeof(ExitOption)
     ];
 
     public void Run()

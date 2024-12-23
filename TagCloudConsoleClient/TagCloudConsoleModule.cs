@@ -13,5 +13,6 @@ public class TagCloudConsoleModule : Module
         builder.RegisterType<LogicSettingsAction>().As<IConsoleAction>().SingleInstance();
         builder.RegisterType<PaletteAction>().As<IConsoleAction>().SingleInstance();
         builder.RegisterType<SaveImageAction>().As<IConsoleAction>().SingleInstance();
+        builder.RegisterType<ExitAction>().As<IConsoleAction>().SingleInstance();
     }
 }
