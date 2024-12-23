@@ -1,5 +1,4 @@
 ﻿using CommandLine;
-using TagCloud.Logic.CloudLayouts;
 
 namespace TagCloudConsoleClient.Options;
 
@@ -11,9 +10,6 @@ public class LogicSettingsOption : IOption
 
     [Option('r', "radiusStep", HelpText = "Шаг увеличения радиуса спирали.")]
     public double RadiusStep { get; set; } = 0.01;
-    
-    [Option('l', "layout", HelpText = "Лайаут облака.")]
-    public ICloudLayout CloudLayout { get; set; }
 
     public SettingsType SettingsType => SettingsType.Logic;
 }

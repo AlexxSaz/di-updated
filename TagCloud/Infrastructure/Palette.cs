@@ -2,9 +2,8 @@
 
 namespace TagCloud.Infrastructure;
 
-public class Palette
+public record Palette
 {
-    public Color PrimaryColor { get; set; } = Color.Black;
-    public Color SecondaryColor { get; set; } = Color.Gold;
-    public Color BackgroundColor { get; set; } = Color.Red;
+    public Color FontColor { get; init; } = Color.Black;
+    public Color BackgroundColor { get; init; } = Color.Red;
 }

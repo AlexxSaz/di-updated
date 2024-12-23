@@ -1,16 +1,25 @@
 ﻿using System.Drawing;
 using TagCloud.Extensions;
+using TagCloud.Infrastructure;
+using TagCloud.Infrastructure.Providers.Interfaces;
 using TagCloud.Logic.PointGenerators;
 
 namespace TagCloud.Logic.CloudLayouts;
 
-public class CircularCloudLayout(IPointGenerator pointGenerator) : ICloudLayout
+public class CircularCloudLayout : ICloudLayout
 {
-    private readonly IEnumerator<Point> _pointGeneratorIterator = pointGenerator
-        .GeneratePoint()
-        .GetEnumerator();
+    private readonly IEnumerator<Point> _pointGeneratorIterator;
 
     private readonly List<Rectangle> _rectangles = [];
+
+    public CircularCloudLayout(LogicSettings logicSettings)
+    {
+        var pointGenerator = new SpiralPointGenerator(logicSettings);
+
+        _pointGeneratorIterator = pointGenerator
+            .GeneratePoint()
+            .GetEnumerator();
+    }
 
     public Rectangle PutNextRectangle(Size size)
     {

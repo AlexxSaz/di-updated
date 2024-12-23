@@ -1,9 +1,7 @@
 ﻿using TagCloud.Calculators;
-using TagCloud.Infrastructure;
-using TagCloud.Infrastructure.Providers;
+using TagCloud.Infrastructure.Providers.Interfaces;
 using TagCloud.Infrastructure.Tags;
 using TagCloud.Logic.CloudLayouts;
-using TagCloud.Readers;
 using TagCloud.WordHandlers;
 
 namespace TagCloud.Logic.Containers;
@@ -20,7 +18,7 @@ public class WordTagCloud : ITagCloud
         var logicSettings = logicSettingsProvider.GetLogicSettings();
         Width = imageSettings.Width;
         Height = imageSettings.Height;
-        CloudLayout = logicSettings.CloudLayout;
+        CloudLayout = new CircularCloudLayout(logicSettings);
     }
 
     public List<IWordTag> GetTags(IEnumerable<string> words, IWordHandler wordHandler, ISizeCalculator sizeCalculator)

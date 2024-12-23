@@ -4,7 +4,7 @@ public enum SettingsType
 {
     Image,
     Logic,
-    Palette,
+    Color,
     Save,
     Exit
 }

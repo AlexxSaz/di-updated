@@ -3,7 +3,6 @@ using System.Drawing.Imaging;
 using TagCloud.Calculators;
 using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Tags;
-using TagCloud.Logic.CloudLayouts;
 using TagCloud.Logic.Containers;
 using TagCloud.Readers;
 using TagCloud.WordHandlers;
@@ -27,7 +26,7 @@ public class WordTagCloudPainter(
             imageSettings.Width + rectangleOutline,
             imageSettings.Height + rectangleOutline);
         using var graphics = Graphics.FromImage(bitmap);
-        var fontColor = palette.PrimaryColor;
+        var fontColor = palette.FontColor;
         var backgroundColor = palette.BackgroundColor;
         graphics.Clear(backgroundColor);
         using var brush = new SolidBrush(fontColor);

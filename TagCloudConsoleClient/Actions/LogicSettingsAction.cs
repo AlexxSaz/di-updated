@@ -1,5 +1,4 @@
-﻿using TagCloud.Infrastructure;
-using TagCloud.Infrastructure.Providers;
+﻿using TagCloud.Infrastructure.Providers.Interfaces;
 using TagCloudConsoleClient.Options;
 
 namespace TagCloudConsoleClient.Actions;
@@ -13,7 +12,6 @@ public class LogicSettingsAction(ILogicSettingsProvider logicSettingsProvider) :
         var optionSettings = (LogicSettingsOption)option;
         logicSettingsProvider.SetAngleStep(optionSettings.AngleStep);
         logicSettingsProvider.SetRadiusStep(optionSettings.RadiusStep);
-        logicSettingsProvider.SetCloudLayout(optionSettings.CloudLayout);
         return $"Настройки логики изменены. " +
                $"Шаг угола {optionSettings.AngleStep}, шаг радиуса {optionSettings.RadiusStep}.";
     }

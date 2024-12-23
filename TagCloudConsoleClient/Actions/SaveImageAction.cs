@@ -1,9 +1,7 @@
 ﻿using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Providers;
-using TagCloud.Logic.Containers;
-using TagCloud.Readers;
+using TagCloud.Infrastructure.Providers.Interfaces;
 using TagCloud.TagCloudPainters;
-using TagCloud.WordHandlers;
 using TagCloudConsoleClient.Options;
 
 namespace TagCloudConsoleClient.Actions;
@@ -11,17 +9,18 @@ namespace TagCloudConsoleClient.Actions;
 public class SaveImageAction(
     ITagCloudPainter tagCloudPainter,
     IImageSettingsProvider imageSettingsProvider,
-    Palette palette,
+    IPaletteProvider paletteProvider,
     SaveSettings saveSettings,
     ILogicSettingsProvider logicSettingsProvider)
     : IConsoleAction
 {
     public SettingsType SettingsType => SettingsType.Save;
 
-    public string Perform(IOption iOption)
+    public string Perform(IOption option)
     {
-        var optionSettings = (SaveImageOption)iOption;
+        var optionSettings = (SaveImageOption)option;
         var imageSettings = imageSettingsProvider.GetImageSettings();
+        var palette = paletteProvider.GetPalette();
         var logicSettings = logicSettingsProvider.GetLogicSettings();
         saveSettings.InputTxtFile = optionSettings.InputTxtFile;
         saveSettings.OutputPngFile = optionSettings.OutputPngFile;

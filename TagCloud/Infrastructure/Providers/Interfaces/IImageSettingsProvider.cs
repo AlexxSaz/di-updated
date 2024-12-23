@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
-using TagCloud.Logic.CloudLayouts;
 
-namespace TagCloud.Infrastructure.Providers;
+namespace TagCloud.Infrastructure.Providers.Interfaces;
 
 public interface IImageSettingsProvider
 {

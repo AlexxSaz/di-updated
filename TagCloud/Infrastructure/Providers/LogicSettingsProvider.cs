@@ -1,4 +1,4 @@
-﻿using TagCloud.Logic.CloudLayouts;
+﻿using TagCloud.Infrastructure.Providers.Interfaces;
 
 namespace TagCloud.Infrastructure.Providers;
 
@@ -14,7 +14,4 @@ public class LogicSettingsProvider : ILogicSettingsProvider
 
     public void SetAngleStep(double angleStep) =>
         _logicSettings = _logicSettings with { AngleStep = angleStep };
-
-    public void SetCloudLayout(ICloudLayout cloudLayout) =>
-        _logicSettings = _logicSettings with { CloudLayout = cloudLayout };
 }

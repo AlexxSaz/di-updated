@@ -2,6 +2,7 @@
 using TagCloud.Calculators;
 using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Providers;
+using TagCloud.Infrastructure.Providers.Interfaces;
 using TagCloud.Infrastructure.Tags;
 using TagCloud.Logic.CloudLayouts;
 using TagCloud.Logic.Containers;
@@ -18,14 +19,15 @@ public class TagCloudModule : Module
     {
         builder.RegisterType<SingleWordInRowFileReader>().As<IFileReader>().SingleInstance();
         builder.RegisterType<WordSizeCalculator>().As<ISizeCalculator>().SingleInstance();
-        builder.RegisterType<WordTagCloudPainter>().As<ITagCloudPainter>().InstancePerDependency();
-        builder.RegisterType<WordTagCloud>().As<ITagCloud>().InstancePerDependency();
-        builder.RegisterType<SimpleWordTag>().As<IWordTag>().SingleInstance();
+        builder.RegisterType<WordTagCloudPainter>().As<ITagCloudPainter>();
+        builder.RegisterType<WordTagCloud>().As<ITagCloud>();
+        builder.RegisterType<SimpleWordTag>().As<IWordTag>();
         builder.RegisterType<SimpleWordHandler>().As<IWordHandler>().SingleInstance();
         builder.RegisterType<CircularCloudLayout>().As<ICloudLayout>();
         builder.RegisterType<SpiralPointGenerator>().As<IPointGenerator>();
-        builder.RegisterType<ImageSettingsProvider>().As<IImageSettingsProvider>().SingleInstance();
-        builder.RegisterType<LogicSettingsProvider>().As<ILogicSettingsProvider>().SingleInstance();
+        builder.RegisterType<ImageSettingsProvider>().As<IImageSettingsProvider>();
+        builder.RegisterType<LogicSettingsProvider>().As<ILogicSettingsProvider>();
+        builder.RegisterType<PaletteProvider>().As<IPaletteProvider>();
         builder.RegisterType<ImageSettings>();
         builder.RegisterType<Palette>();
         builder.RegisterType<LogicSettings>();

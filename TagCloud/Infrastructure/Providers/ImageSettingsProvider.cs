@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using TagCloud.Logic.CloudLayouts;
+using TagCloud.Infrastructure.Providers.Interfaces;
 
 namespace TagCloud.Infrastructure.Providers;
 

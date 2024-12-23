@@ -1,6 +1,4 @@
 using System.Drawing;
-using TagCloud.Logic.CloudLayouts;
-using TagCloud.Logic.PointGenerators;
 
 namespace TagCloud.Infrastructure;
 
