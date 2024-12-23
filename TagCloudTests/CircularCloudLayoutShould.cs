@@ -1,10 +1,8 @@
 ﻿using System.Drawing;
 using FluentAssertions;
 using TagCloud.Extensions;
-using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Providers;
 using TagCloud.Logic.CloudLayouts;
-using TagCloud.Logic.PointGenerators;
 using TagCloudTests.SizeGenerator;
 
 [assembly: Parallelizable(ParallelScope.Children)]

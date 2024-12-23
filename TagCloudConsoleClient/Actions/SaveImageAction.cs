@@ -1,5 +1,4 @@
 ﻿using TagCloud.Infrastructure;
-using TagCloud.Infrastructure.Providers;
 using TagCloud.Infrastructure.Providers.Interfaces;
 using TagCloud.TagCloudPainters;
 using TagCloudConsoleClient.Options;
