@@ -12,7 +12,13 @@ public class ImageSettingsOption : IOption
     public int Height { get; set; } = 2000;
     
     [Option('f', "font", HelpText = "Вид шрифта")]
-    public int FontFamily { get; set; } = 2000;
+    public byte FontFamily { get; set; } = 1;
+    
+    [Option('u', "font", HelpText = "Вид шрифта")]
+    public byte MaxFontSize { get; set; } = 36;
+    
+    [Option('l', "font", HelpText = "Вид шрифта")]
+    public byte MinFontSize { get; set; } = 10;
 
     public SettingsType SettingsType => SettingsType.Image;
 }
