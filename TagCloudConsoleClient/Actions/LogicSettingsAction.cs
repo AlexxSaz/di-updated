@@ -6,7 +6,7 @@ namespace TagCloudConsoleClient.Actions;
 
 public class LogicSettingsAction(ILogicSettingsProvider logicSettingsProvider) : IConsoleAction
 {
-    public SettingsType SettingsType => SettingsType.Logic;
+    public OptionType OptionType => OptionType.Logic;
 
     public string Perform(IOption option)
     {

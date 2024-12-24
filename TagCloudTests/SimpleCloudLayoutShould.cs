@@ -16,7 +16,7 @@ public class SimpleCloudLayoutShould
     private readonly Random _random = new();
     private readonly ISizesGenerator _defaultSizesGenerator = new RandomSizesGenerator();
     private readonly LogicSettingsProvider _logicSettingsProvider = new();
-    private readonly PointGeneratorFactory _pointGeneratorFactory = new();
+    private readonly SimplePointGeneratorFactory _simplePointGeneratorFactory = new();
 
     [Test]
     [Repeat(5)]
@@ -29,7 +29,7 @@ public class SimpleCloudLayoutShould
             .GenerateSize()
             .Take(1)
             .First();
-        var cloudLayout = new SimpleCloudLayout(logicSettings, _pointGeneratorFactory);
+        var cloudLayout = new SimpleCloudLayout(logicSettings, _simplePointGeneratorFactory);
 
         var actualRectangle = cloudLayout.PutNextRectangle(rectangleSize);
 
@@ -46,7 +46,7 @@ public class SimpleCloudLayoutShould
     {
         var logicSettings = _logicSettingsProvider.GetLogicSettings();
         var rectangleSize = new Size(width, height);
-        var circularCloudLayout = new SimpleCloudLayout(logicSettings, _pointGeneratorFactory);
+        var circularCloudLayout = new SimpleCloudLayout(logicSettings, _simplePointGeneratorFactory);
 
         var executePutNewRectangle = () =>
             circularCloudLayout
@@ -65,7 +65,7 @@ public class SimpleCloudLayoutShould
         var rectangleSizes = _defaultSizesGenerator
             .GenerateSize()
             .Take(_random.Next(10, 200));
-        var cloudLayout = new SimpleCloudLayout(logicSettings, _pointGeneratorFactory);
+        var cloudLayout = new SimpleCloudLayout(logicSettings, _simplePointGeneratorFactory);
 
         var rectangles = rectangleSizes
             .Select(size => cloudLayout.PutNextRectangle(size))
@@ -87,7 +87,7 @@ public class SimpleCloudLayoutShould
         var rectangleSizes = _defaultSizesGenerator
             .GenerateSize()
             .Take(_random.Next(100, 200));
-        var circularCloudLayout = new SimpleCloudLayout(logicSettings, _pointGeneratorFactory);
+        var circularCloudLayout = new SimpleCloudLayout(logicSettings, _simplePointGeneratorFactory);
 
         var rectanglesList = rectangleSizes
             .Select(rectangleSize => circularCloudLayout

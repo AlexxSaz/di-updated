@@ -6,7 +6,7 @@ namespace TagCloudConsoleClient.Actions;
 
 public class ImageSettingsAction(IImageSettingsProvider imageSettingsProvider) : IConsoleAction
 {
-    public SettingsType SettingsType => SettingsType.Image;
+    public OptionType OptionType => OptionType.Image;
 
     public string Perform(IOption option)
     {

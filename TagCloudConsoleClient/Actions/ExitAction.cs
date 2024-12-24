@@ -4,7 +4,7 @@ namespace TagCloudConsoleClient.Actions;
 
 public class ExitAction : IConsoleAction
 {
-    public SettingsType SettingsType => SettingsType.Exit;
+    public OptionType OptionType => OptionType.Exit;
 
     public string Perform(IOption option)
     {

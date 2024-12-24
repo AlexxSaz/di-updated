@@ -4,6 +4,6 @@ namespace TagCloudConsoleClient.Actions;
 
 public interface IConsoleAction
 {
-    SettingsType SettingsType { get; }
+    OptionType OptionType { get; }
     string Perform(IOption option);
 }

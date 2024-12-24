@@ -22,7 +22,7 @@ public class WordTagCloudPainter(
         LogicSettings logicSettings)
     {
         const int rectangleOutline = 1;
-        var cloudLayout = new SimpleCloudLayout(logicSettings, new PointGeneratorFactory());
+        var cloudLayout = new SimpleCloudLayout(logicSettings, new SimplePointGeneratorFactory());
         var bitmap = new Bitmap(
             imageSettings.Width + rectangleOutline,
             imageSettings.Height + rectangleOutline);

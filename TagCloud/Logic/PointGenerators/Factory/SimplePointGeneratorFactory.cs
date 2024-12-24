@@ -2,7 +2,7 @@ using TagCloud.Infrastructure;
 
 namespace TagCloud.Logic.PointGenerators.Factory;
 
-public class PointGeneratorFactory : IPointGeneratorFactory
+public class SimplePointGeneratorFactory : IPointGeneratorFactory
 {
     public IPointGenerator CreatePointGenerator(LogicSettings logicSettings) =>
         logicSettings.PointGeneratorType switch

@@ -2,5 +2,5 @@
 
 public interface IOption
 {
-    SettingsType SettingsType { get; }
+    OptionType OptionType { get; }
 }

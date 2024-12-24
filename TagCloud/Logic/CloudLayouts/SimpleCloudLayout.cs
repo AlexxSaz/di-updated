@@ -3,7 +3,6 @@ using TagCloud.Calculators;
 using TagCloud.Extensions;
 using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Tags;
-using TagCloud.Logic.PointGenerators;
 using TagCloud.Logic.PointGenerators.Factory;
 using TagCloud.WordHandlers;
 

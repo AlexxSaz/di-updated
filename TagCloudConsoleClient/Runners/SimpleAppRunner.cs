@@ -6,12 +6,12 @@ namespace TagCloudConsoleClient.Runners;
 
 public class SimpleAppRunner : IAppRunner
 {
-    private readonly IReadOnlyDictionary<SettingsType, IConsoleAction> _routeActions;
+    private readonly IReadOnlyDictionary<OptionType, IConsoleAction> _routeActions;
 
     public SimpleAppRunner(IEnumerable<IConsoleAction> actions)
     {
         var actionsArray = actions.ToArray();
-        _routeActions = actionsArray.ToDictionary(action => action.SettingsType, action => action);
+        _routeActions = actionsArray.ToDictionary(action => action.OptionType, action => action);
     }
     
     private readonly Type[] _optionsTypes =
@@ -37,7 +37,7 @@ public class SimpleAppRunner : IAppRunner
     
     private void Perform(IOption option)
     {
-        var action = _routeActions[option.SettingsType];
+        var action = _routeActions[option.OptionType];
         Console.WriteLine(action.Perform(option));
     }
 }

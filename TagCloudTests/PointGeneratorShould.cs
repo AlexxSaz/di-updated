@@ -1,21 +1,28 @@
 ﻿using System.Drawing;
 using FluentAssertions;
+using FluentAssertions.Execution;
 using TagCloud.Extensions;
-using TagCloud.Infrastructure;
+using TagCloud.Infrastructure.Providers;
+using TagCloud.Infrastructure.Providers.Interfaces;
 using TagCloud.Logic.PointGenerators;
+using TagCloud.Logic.PointGenerators.Factory;
 
 namespace TagCloudTests;
 
-public class SpiralPointGeneratorShould
+public class PointGeneratorShould
 {
-    private static readonly LogicSettings LogicSettings = new();
+    private static readonly LogicSettingsProvider LogicSettingsProvider = new();
     private readonly Point _defaultCenter = new();
     private readonly Random _random = new();
+    private readonly IPointGeneratorFactory _pointGeneratorFactory = new SimplePointGeneratorFactory();
 
-    [Test]
-    public void GetNewPoint_ReturnCenter_AfterFirstExecution()
+    [TestCase(PointGeneratorType.Spiral)]
+    [TestCase(PointGeneratorType.Astroid)]
+    public void GetNewPoint_ReturnCenter_AfterFirstExecutionWith(PointGeneratorType pointGeneratorType)
     {
-        var pointGenerator = new SpiralPointGenerator(LogicSettings);
+        LogicSettingsProvider.SetPointGenerator(pointGeneratorType);
+        var logicSettings = LogicSettingsProvider.GetLogicSettings();
+        var pointGenerator = new SpiralPointGenerator(logicSettings);
         using var newPointIterator = pointGenerator
             .GeneratePoint()
             .GetEnumerator();
@@ -27,11 +34,14 @@ public class SpiralPointGeneratorShould
             .BeEquivalentTo(_defaultCenter);
     }
 
-    [Test]
+    [TestCase(PointGeneratorType.Spiral)]
+    [TestCase(PointGeneratorType.Astroid)]
     [Repeat(20)]
-    public void GetNewPoint_ReturnPointWithGreaterRadius_AfterManyExecutions()
+    public void GetNewPoint_ReturnPointWithGreaterRadius_WithPointGenerator(PointGeneratorType pointGeneratorType)
     {
-        var newPointGenerator = new SpiralPointGenerator(LogicSettings);
+        LogicSettingsProvider.SetPointGenerator(pointGeneratorType);
+        var logicSettings = LogicSettingsProvider.GetLogicSettings();
+        var newPointGenerator = _pointGeneratorFactory.CreatePointGenerator(logicSettings);
         var countOfPoints = _random.Next(10, 200);
         var points = newPointGenerator
             .GeneratePoint()
@@ -45,6 +55,7 @@ public class SpiralPointGeneratorShould
             .Select(p => Math.Atan2(p.Y - _defaultCenter.Y, p.X - _defaultCenter.X))
             .ToArray();
 
+        using var _ = new AssertionScope();
         distances
             .Zip(distances.Skip(1), (a, b) => a <= b)
             .All(x => x)

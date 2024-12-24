@@ -1,5 +1,4 @@
 ﻿using CommandLine;
-using TagCloud.Logic.PointGenerators;
 
 namespace TagCloudConsoleClient.Options;
 
@@ -15,5 +14,5 @@ public class LogicSettingsOption : IOption
     [Option('g', "generatorType", HelpText = "Тип генератора точек.\n1 - Спираль\n2 - Астроида")]
     public int PointGeneratorType { get; set; } = 1;
 
-    public SettingsType SettingsType => SettingsType.Logic;
+    public OptionType OptionType => OptionType.Logic;
 }

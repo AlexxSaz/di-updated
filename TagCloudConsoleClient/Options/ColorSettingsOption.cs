@@ -11,5 +11,5 @@ public class ColorSettingsOption : IOption
     [Option('b', "background", HelpText = "Цвет заливки")]
     public byte Background { get; set; } = 2;
 
-    public SettingsType SettingsType => SettingsType.Color;
+    public OptionType OptionType => OptionType.Color;
 }

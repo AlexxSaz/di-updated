@@ -13,7 +13,7 @@ public class SaveImageAction(
     ILogicSettingsProvider logicSettingsProvider)
     : IConsoleAction
 {
-    public SettingsType SettingsType => SettingsType.Save;
+    public OptionType OptionType => OptionType.Save;
 
     public string Perform(IOption option)
     {

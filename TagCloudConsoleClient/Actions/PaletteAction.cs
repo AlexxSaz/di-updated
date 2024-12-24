@@ -6,7 +6,7 @@ namespace TagCloudConsoleClient.Actions;
 
 public class PaletteAction(IPaletteProvider paletteProvider) : IConsoleAction
 {
-    public SettingsType SettingsType => SettingsType.Color;
+    public OptionType OptionType => OptionType.Color;
 
     public string Perform(IOption option)
     {

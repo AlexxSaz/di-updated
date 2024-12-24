@@ -20,7 +20,7 @@ public class TagCloudModule : Module
         builder.RegisterType<SingleWordInRowFileReader>().As<IFileReader>().SingleInstance();
         builder.RegisterType<WordSizeCalculator>().As<ISizeCalculator>().SingleInstance();
         builder.RegisterType<SimpleWordHandler>().As<IWordHandler>().SingleInstance();
-        builder.RegisterType<PointGeneratorFactory>().As<IPointGeneratorFactory>().SingleInstance();
+        builder.RegisterType<SimplePointGeneratorFactory>().As<IPointGeneratorFactory>().SingleInstance();
         
         builder.RegisterType<ImageSettingsProvider>().As<IImageSettingsProvider>().SingleInstance();
         builder.RegisterType<LogicSettingsProvider>().As<ILogicSettingsProvider>().SingleInstance();

@@ -20,5 +20,5 @@ public class ImageSettingsOption : IOption
     [Option('l', "font", HelpText = "Вид шрифта")]
     public byte MinFontSize { get; set; } = 10;
 
-    public SettingsType SettingsType => SettingsType.Image;
+    public OptionType OptionType => OptionType.Image;
 }
