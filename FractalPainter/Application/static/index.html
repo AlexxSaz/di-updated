@@ -110,10 +110,10 @@
     <!--    </div>-->
 
     <div class="dropdown">
-        <button class="dropbtn">Фракталы</button>
+        <button class="dropbtn">Генераторы точек</button>
         <div class="dropdown-content">
-            <a href="#" id="dragon-fractal-btn">Дракон</a>
-            <a href="#" id="koch-fractal-btn">Кривая Коха</a>
+            <a href="#" id="spiral-generator-btn">Спираль</a>
+            <a href="#" id="astroid-generator-btn">Астроида</a>
         </div>
     </div>
 
@@ -122,6 +122,7 @@
         <div class="dropdown-content">
             <a href="#" id="image-settings-btn">Изображение</a>
             <a href="#" id="palette-settings-btn">Палитра</a>
+            <a href="#" id="logic-settings-btn">Логика</a>
         </div>
     </div>
 </nav>
@@ -365,7 +366,7 @@
             }
         });
 
-    const kochFractalBtn = document.querySelector("#koch-fractal-btn");
+    const kochFractalBtn = document.querySelector("#astroid-generator-btn");
     kochFractalBtn.addEventListener("click", function (event) {
         event.preventDefault();
         post("/kochFractal")
@@ -483,7 +484,7 @@
         dragonFractalSettingsModal.classList.remove("hidden");
     }
 
-    const dragonFractalButton = document.querySelector("#dragon-fractal-btn");
+    const dragonFractalButton = document.querySelector("#spiral-generator-btn");
     dragonFractalButton.addEventListener("click", function (_) {
         openDragonFractalSettingModal();
     });

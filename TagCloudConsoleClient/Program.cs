@@ -1,6 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using Autofac;
+﻿using Autofac;
 using TagCloud;
 using TagCloudConsoleClient;
 using TagCloudConsoleClient.Runners;
