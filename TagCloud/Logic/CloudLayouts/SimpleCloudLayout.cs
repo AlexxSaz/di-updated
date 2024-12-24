@@ -4,19 +4,20 @@ using TagCloud.Extensions;
 using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Tags;
 using TagCloud.Logic.PointGenerators;
+using TagCloud.Logic.PointGenerators.Factory;
 using TagCloud.WordHandlers;
 
 namespace TagCloud.Logic.CloudLayouts;
 
-public class CircularCloudLayout : ICloudLayout
+public class SimpleCloudLayout : ICloudLayout
 {
     private readonly IEnumerator<Point> _pointGeneratorIterator;
 
     private readonly List<Rectangle> _rectangles = [];
 
-    public CircularCloudLayout(LogicSettings logicSettings)
+    public SimpleCloudLayout(LogicSettings logicSettings, IPointGeneratorFactory pointGeneratorFactory)
     {
-        var pointGenerator = new SpiralPointGenerator(logicSettings);
+        var pointGenerator = pointGeneratorFactory.CreatePointGenerator(logicSettings);
 
         _pointGeneratorIterator = pointGenerator
             .GeneratePoint()

@@ -4,6 +4,7 @@ using TagCloud.Calculators;
 using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Tags;
 using TagCloud.Logic.CloudLayouts;
+using TagCloud.Logic.PointGenerators.Factory;
 using TagCloud.Readers;
 using TagCloud.WordHandlers;
 
@@ -21,7 +22,7 @@ public class WordTagCloudPainter(
         LogicSettings logicSettings)
     {
         const int rectangleOutline = 1;
-        var cloudLayout = new CircularCloudLayout(logicSettings);
+        var cloudLayout = new SimpleCloudLayout(logicSettings, new PointGeneratorFactory());
         var bitmap = new Bitmap(
             imageSettings.Width + rectangleOutline,
             imageSettings.Height + rectangleOutline);

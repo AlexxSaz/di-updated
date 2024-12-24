@@ -3,19 +3,20 @@ using FluentAssertions;
 using TagCloud.Extensions;
 using TagCloud.Infrastructure.Providers;
 using TagCloud.Logic.CloudLayouts;
+using TagCloud.Logic.PointGenerators.Factory;
 using TagCloudTests.SizeGenerator;
 
 [assembly: Parallelizable(ParallelScope.Children)]
 
 namespace TagCloudTests;
 
-public class CircularCloudLayoutShould
+public class SimpleCloudLayoutShould
 {
     private readonly Point _defaultCenter = new();
     private readonly Random _random = new();
     private readonly ISizesGenerator _defaultSizesGenerator = new RandomSizesGenerator();
     private readonly LogicSettingsProvider _logicSettingsProvider = new();
-
+    private readonly PointGeneratorFactory _pointGeneratorFactory = new();
 
     [Test]
     [Repeat(5)]
@@ -28,7 +29,7 @@ public class CircularCloudLayoutShould
             .GenerateSize()
             .Take(1)
             .First();
-        var cloudLayout = new CircularCloudLayout(logicSettings);
+        var cloudLayout = new SimpleCloudLayout(logicSettings, _pointGeneratorFactory);
 
         var actualRectangle = cloudLayout.PutNextRectangle(rectangleSize);
 
@@ -45,7 +46,7 @@ public class CircularCloudLayoutShould
     {
         var logicSettings = _logicSettingsProvider.GetLogicSettings();
         var rectangleSize = new Size(width, height);
-        var circularCloudLayout = new CircularCloudLayout(logicSettings);
+        var circularCloudLayout = new SimpleCloudLayout(logicSettings, _pointGeneratorFactory);
 
         var executePutNewRectangle = () =>
             circularCloudLayout
@@ -64,7 +65,7 @@ public class CircularCloudLayoutShould
         var rectangleSizes = _defaultSizesGenerator
             .GenerateSize()
             .Take(_random.Next(10, 200));
-        var cloudLayout = new CircularCloudLayout(logicSettings);
+        var cloudLayout = new SimpleCloudLayout(logicSettings, _pointGeneratorFactory);
 
         var rectangles = rectangleSizes
             .Select(size => cloudLayout.PutNextRectangle(size))
@@ -86,7 +87,7 @@ public class CircularCloudLayoutShould
         var rectangleSizes = _defaultSizesGenerator
             .GenerateSize()
             .Take(_random.Next(100, 200));
-        var circularCloudLayout = new CircularCloudLayout(logicSettings);
+        var circularCloudLayout = new SimpleCloudLayout(logicSettings, _pointGeneratorFactory);
 
         var rectanglesList = rectangleSizes
             .Select(rectangleSize => circularCloudLayout
