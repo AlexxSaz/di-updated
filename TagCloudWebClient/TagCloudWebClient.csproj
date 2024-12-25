@@ -12,14 +12,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="..\FractalPainter\Application\static\index.html">
-        <Link>static\index.html</Link>
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+      <ProjectReference Include="..\TagCloud\TagCloud.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TagCloud\TagCloud.csproj" />
+      <None Update="static\index.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>
