@@ -7,8 +7,6 @@ namespace FractalPainting.Application.Actions;
 
 public class UpdateImageSettingsAction(IImageSettingsProvider imageSettingsProvider) : IApiAction
 {
-    private IImageSettingsProvider imageSettingsProvider = imageSettingsProvider;
-
     public string Endpoint => "/settings";
     public string HttpMethod => "PUT";
 
