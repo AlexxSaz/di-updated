@@ -6,26 +6,26 @@ namespace TagCloudWebClient;
 
 internal sealed class App
 {
-    private const string Endpoint = "http://localhost:8080/";
-    private readonly HttpListener httpListener;
-    private readonly IReadOnlyDictionary<string, IApiAction> routeActions;
+    private const string Endpoint = "http://localhost:8081/";
+    private readonly HttpListener _httpListener;
+    private readonly IReadOnlyDictionary<string, IApiAction> _routeActions;
 
     public App(IEnumerable<IApiAction> actions)
     {
         var actionsArray = actions.ToArray();
-        httpListener = new HttpListener();
-        httpListener.Prefixes.Add(Endpoint);
-        routeActions = actionsArray.ToDictionary(action => $"{action.HttpMethod} {action.Endpoint}", action => action);
+        _httpListener = new HttpListener();
+        _httpListener.Prefixes.Add(Endpoint);
+        _routeActions = actionsArray.ToDictionary(action => $"{action.HttpMethod} {action.Endpoint}", action => action);
     }
 
     public async Task Run()
     {
-        httpListener.Start();
+        _httpListener.Start();
         Console.WriteLine($"Listening at {Endpoint}");
 
         while (true)
         {
-            var context = await httpListener.GetContextAsync();
+            var context = await _httpListener.GetContextAsync();
             
             try
             {
@@ -39,7 +39,7 @@ internal sealed class App
                     continue;
                 }
 
-                if (!routeActions.TryGetValue(actionKey, out var action))
+                if (!_routeActions.TryGetValue(actionKey, out var action))
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.NotFound;
                     context.Response.Close();
@@ -51,7 +51,7 @@ internal sealed class App
             catch (Exception e)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                await JsonSerializer.SerializeAsync(context.Response.OutputStream, "new ResultError(e.Message)");
+                await JsonSerializer.SerializeAsync(context.Response.OutputStream, new ResultError(e.Message));
             }
             finally
             {
