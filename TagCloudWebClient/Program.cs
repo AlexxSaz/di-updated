@@ -1,8 +1,10 @@
 ﻿using Autofac;
 using TagCloud;
+using TagCloudReader;
 using TagCloudWebClient;
 
 var builder = new ContainerBuilder();
+builder.RegisterModule(new TagCloudReaderModule());
 builder.RegisterModule(new TagCloudWebModule());
 builder.RegisterModule(new TagCloudModule());
 

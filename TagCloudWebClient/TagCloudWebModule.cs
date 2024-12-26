@@ -11,9 +11,8 @@ public class TagCloudWebModule : Module
         builder.RegisterType<GetPaletteSettingsAction>().As<IApiAction>().SingleInstance();
         builder.RegisterType<GetLogicSettingsAction>().As<IApiAction>().SingleInstance();
         builder.RegisterType<UpdateImageSettingsAction>().As<IApiAction>().SingleInstance();
-        builder.RegisterType<UpdatePaletteSettingsAction>().As<IApiAction>().SingleInstance();
         builder.RegisterType<UpdateLogicSettingsAction>().As<IApiAction>().SingleInstance();
-        builder.RegisterType<SaveImageAction>().As<IApiAction>().SingleInstance();
+        builder.RegisterType<GetWordsAction>().As<IApiAction>().SingleInstance();
         builder.RegisterType<App>().SingleInstance();
     }
 }
