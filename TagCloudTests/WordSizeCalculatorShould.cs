@@ -23,6 +23,6 @@ public class WordSizeCalculatorShould
         using var _ = new AssertionScope();
         wordFrequencyDictionary.Count.Should().Be(expectedNumberOfWords);
         wordFrequencyDictionary.First().Value.Should().Be(oneWordCollection.First());
-        wordFrequencyDictionary.First().FontSize.Should().BeInRange(minSize, maxSize);
+        wordFrequencyDictionary.First().Font.Size.Should().BeInRange(minSize, maxSize);
     }
 }

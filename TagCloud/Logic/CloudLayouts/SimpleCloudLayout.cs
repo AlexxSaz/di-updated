@@ -23,7 +23,7 @@ public class SimpleCloudLayout : ICloudLayout
             .GetEnumerator();
     }
 
-    public List<IWordTag> GetTags(IEnumerable<string> words, IWordHandler wordHandler, ISizeCalculator sizeCalculator,
+    public IReadOnlyCollection<IWordTag> GetTags(IEnumerable<string> words, IWordHandler wordHandler, ISizeCalculator sizeCalculator,
         ImageSettings imageSettings)
     {
         var handledWords = wordHandler.Handle(words);

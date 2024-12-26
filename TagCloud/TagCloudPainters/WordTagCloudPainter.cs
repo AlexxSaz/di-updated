@@ -15,23 +15,18 @@ public class WordTagCloudPainter(
     IWordHandler wordHandler,
     ISizeCalculator sizeCalculator) : ITagCloudPainter
 {
-    public void SaveImage(
+    public IReadOnlyCollection<IWordTag> SaveImage(
+        IEnumerable<string> words,
         ImageSettings imageSettings,
-        Palette palette,
-        SaveSettings saveSettings,
         LogicSettings logicSettings)
     {
+        var result = new List<IWordTag>();
         const int rectangleOutline = 1;
         var cloudLayout = new SimpleCloudLayout(logicSettings, new SimplePointGeneratorFactory());
         var bitmap = new Bitmap(
             imageSettings.Width + rectangleOutline,
             imageSettings.Height + rectangleOutline);
         using var graphics = Graphics.FromImage(bitmap);
-        var fontColor = palette.FontColor;
-        var backgroundColor = palette.BackgroundColor;
-        graphics.Clear(backgroundColor);
-        using var brush = new SolidBrush(fontColor);
-        var words = reader.Read(saveSettings.InputTxtFile);
         var tags = cloudLayout.GetTags(
             words,
             wordHandler,
@@ -40,21 +35,20 @@ public class WordTagCloudPainter(
 
         foreach (var tag in tags)
         {
-            using var font = new Font(imageSettings.FontFamily, tag.FontSize);
+            using var font = new Font(imageSettings.FontFamily, tag.Font.Size);
             var frame =
                 cloudLayout.PutNextRectangle(CalculateWordSize(graphics, tag, font));
-            var x = frame.X + imageSettings.Width / 2;
-            var y = frame.Y + imageSettings.Height / 2;
-            graphics.DrawString(tag.Value, font, brush, x, y);
+            var tagLocation = new Point(frame.X + imageSettings.Width / 2, frame.Y + imageSettings.Height / 2);
+            var tagToPrint = new SimpleWordTag(tag.Value, font, tagLocation);
+            result.Add(tagToPrint);
         }
 
-        var path = saveSettings.OutputPngFile;
-        bitmap.Save(path, ImageFormat.Png);
+        return result;
     }
 
-    private static Size CalculateWordSize(Graphics graphics, IWordTag viewWord, Font font)
+    private static Size CalculateWordSize(Graphics graphics, IWordTag wordTag, Font font)
     {
-        var textSize = graphics.MeasureString(viewWord.Value, font);
+        var textSize = graphics.MeasureString(wordTag.Value, font);
         var viewWidth = (int)Math.Ceiling(textSize.Width);
         var viewHeight = (int)Math.Ceiling(textSize.Height);
         var viewSize = new Size(viewWidth, viewHeight);
