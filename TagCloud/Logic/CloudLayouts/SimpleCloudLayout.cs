@@ -23,11 +23,11 @@ public class SimpleCloudLayout : ICloudLayout
             .GetEnumerator();
     }
 
-    public IReadOnlyCollection<IWordTag> GetTags(IEnumerable<string> words, IWordHandler wordHandler, ISizeCalculator sizeCalculator,
-        ImageSettings imageSettings)
+    public IReadOnlyCollection<IWordTag> GetTags(IEnumerable<string> words, IWordHandler wordHandler,
+        ISizeCalculator sizeCalculator)
     {
         var handledWords = wordHandler.Handle(words);
-        return sizeCalculator.Calculate(handledWords, imageSettings.MaxFontSize, imageSettings.MinFontSize);
+        return sizeCalculator.Calculate(handledWords);
     }
 
     public Rectangle PutNextRectangle(Size size)

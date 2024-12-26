@@ -2,16 +2,16 @@
 using System.Text.Json;
 using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Providers.Interfaces;
+using TagCloud.Readers;
 using TagCloud.TagCloudPainters;
 
 namespace TagCloudWebClient.UiActions;
 
 public class SaveImageAction(
     ITagCloudPainter tagCloudPainter,
-    IPaletteProvider paletteProvider,
     IImageSettingsProvider imageSettingsProvider,
     ILogicSettingsProvider logicSettingsProvider,
-    SaveSettings saveSettings) : IApiAction
+    IFileReader reader) : IApiAction
 {
     public string Endpoint => "/saveImage";
 
@@ -19,13 +19,12 @@ public class SaveImageAction(
 
     public int Perform(Stream inputStream, Stream outputStream)
     {
-        var palette = paletteProvider.GetPalette();
+        var words = reader.Read(inputStream);
         var imageSettings = imageSettingsProvider.GetImageSettings();
         var logicSettings = logicSettingsProvider.GetLogicSettings();
-        saveSettings.InputTxtFile = "";
-        saveSettings.OutputPngFile = "";
-        tagCloudPainter.SaveImage(imageSettings, palette, saveSettings, logicSettings);
-        JsonSerializer.Serialize(outputStream, saveSettings.OutputPngFile);
+
+        var tagsInCloud = tagCloudPainter.PrintImage(words, imageSettings, logicSettings);
+        JsonSerializer.Serialize(outputStream, tagsInCloud);
         return (int)HttpStatusCode.OK;
     }
 }

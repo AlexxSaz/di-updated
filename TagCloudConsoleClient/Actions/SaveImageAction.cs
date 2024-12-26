@@ -21,9 +21,9 @@ public class SaveImageAction(
         var imageSettings = imageSettingsProvider.GetImageSettings();
         var palette = paletteProvider.GetPalette();
         var logicSettings = logicSettingsProvider.GetLogicSettings();
-        saveSettings.InputTxtFile = optionSettings.InputTxtFile;
-        saveSettings.OutputPngFile = optionSettings.OutputPngFile;
-        tagCloudPainter.SaveImage(imageSettings, palette, saveSettings, logicSettings);
-        return $"Картинка сохранена с именем {saveSettings.OutputPngFile}.";
+        // saveSettings.InputTxtFile = optionSettings.InputTxtFile;
+        // saveSettings.OutputPngFile = optionSettings.OutputPngFile;
+        tagCloudPainter.PrintImage(imageSettings, palette, saveSettings, logicSettings);
+        return $"Картинка сохранена.";
     }
 }

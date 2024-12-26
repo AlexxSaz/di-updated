@@ -8,8 +8,8 @@ namespace TagCloud.Logic.CloudLayouts;
 
 public interface ICloudLayout
 {
-    IReadOnlyCollection<IWordTag> GetTags(IEnumerable<string> words, IWordHandler wordHandler, ISizeCalculator sizeCalculator,
-        ImageSettings imageSettings);
+    IReadOnlyCollection<IWordTag> GetTags(IEnumerable<string> words, IWordHandler wordHandler,
+        ISizeCalculator sizeCalculator);
 
     public Rectangle PutNextRectangle(Size rectangleSize);
 }

@@ -9,6 +9,13 @@ public class SingleWordInRowFileReader : IFileReader
             ? File.ReadAllLines(path)
             : _defaultWords;
 
+    public IEnumerable<string> Read(Stream stream)
+    {
+        if (IsValidStream(stream)) return _defaultWords;
+        using var reader = new StreamReader(stream);
+        return reader.ReadToEnd().Split();
+    }
+
     private static bool IsValidFile(string path)
     {
         if (string.IsNullOrWhiteSpace(path))
@@ -19,4 +26,7 @@ public class SingleWordInRowFileReader : IFileReader
 
         return true;
     }
+
+    private static bool IsValidStream(Stream stream) =>
+        stream.Length > 0;
 }

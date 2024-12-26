@@ -1,21 +1,18 @@
 using System.Drawing;
-using System.Drawing.Imaging;
 using TagCloud.Calculators;
 using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Tags;
 using TagCloud.Logic.CloudLayouts;
 using TagCloud.Logic.PointGenerators.Factory;
-using TagCloud.Readers;
 using TagCloud.WordHandlers;
 
 namespace TagCloud.TagCloudPainters;
 
 public class WordTagCloudPainter(
-    IFileReader reader,
     IWordHandler wordHandler,
     ISizeCalculator sizeCalculator) : ITagCloudPainter
 {
-    public IReadOnlyCollection<IWordTag> SaveImage(
+    public IReadOnlyCollection<IWordTag> PrintImage(
         IEnumerable<string> words,
         ImageSettings imageSettings,
         LogicSettings logicSettings)
@@ -30,8 +27,7 @@ public class WordTagCloudPainter(
         var tags = cloudLayout.GetTags(
             words,
             wordHandler,
-            sizeCalculator,
-            imageSettings);
+            sizeCalculator);
 
         foreach (var tag in tags)
         {

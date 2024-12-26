@@ -17,4 +17,8 @@
       </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\TagCloudReader\TagCloudReader.csproj" />
+    </ItemGroup>
+
 </Project>
