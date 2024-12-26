@@ -2,7 +2,7 @@
 
 namespace TagCloudConsoleClient.Options;
 
-[Verb("save-image", HelpText = "Сохранение изображения с заданными настройками.")]
+[Verb("save", HelpText = "Сохранение изображения с заданными настройками.")]
 public class SaveImageOption : IOption
 {
     public OptionType OptionType { get; } = OptionType.Save;
