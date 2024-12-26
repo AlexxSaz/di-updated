@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using TagCloud.Calculators;
-using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Tags;
 using TagCloud.WordHandlers;
 

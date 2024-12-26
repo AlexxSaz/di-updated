@@ -5,7 +5,6 @@ using TagCloud.Infrastructure.Providers;
 using TagCloud.Infrastructure.Providers.Interfaces;
 using TagCloud.Infrastructure.Tags;
 using TagCloud.Logic.CloudLayouts;
-using TagCloud.Logic.PointGenerators;
 using TagCloud.Logic.PointGenerators.Factory;
 using TagCloud.TagCloudPainters;
 using TagCloud.WordHandlers;
@@ -28,8 +27,8 @@ public class TagCloudModule : Module
         builder.RegisterType<SimpleWordTag>().As<IWordTag>();
         builder.RegisterType<SimpleCloudLayout>().As<ICloudLayout>();
         
-        builder.RegisterType<ImageSettings>();
-        builder.RegisterType<Palette>();
-        builder.RegisterType<LogicSettings>();
+        builder.RegisterType<ImageSettings>().SingleInstance();
+        builder.RegisterType<Palette>().SingleInstance();
+        builder.RegisterType<LogicSettings>().SingleInstance();
     }
 }

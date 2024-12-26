@@ -1,22 +1,26 @@
 ﻿using System.Drawing;
-using TagCloud.Infrastructure;
+using TagCloud.Infrastructure.Providers.Interfaces;
 using TagCloud.Infrastructure.Tags;
+using Font = TagCloud.Model.Font;
+using Point = TagCloud.Model.Point;
 
 namespace TagCloud.Calculators;
 
-public class WordSizeCalculator(ImageSettings imageSettings) : ISizeCalculator
+public class WordSizeCalculator(IImageSettingsProvider imageSettingsProvider) : ISizeCalculator
 {
     public IReadOnlyCollection<IWordTag> Calculate(IEnumerable<string> words)
     {
         var result = new List<IWordTag>();
         var dictionaryWithWordFrequency = GetDictionaryWithWordFrequency(words);
+        var imageSettings = imageSettingsProvider.GetImageSettings();
         var maxFrequency = dictionaryWithWordFrequency.Values.Max();
 
         foreach (var wordCountPair in dictionaryWithWordFrequency)
         {
             var normalizedFrequency = GetNormalizedFrequency(wordCountPair.Value, maxFrequency);
             var size = GetSize(normalizedFrequency, imageSettings.MaxFontSize, imageSettings.MinFontSize);
-            var wordTag = new SimpleWordTag(wordCountPair.Key, new Font(imageSettings.FontFamily, size), new Point());
+            var wordTag = new SimpleWordTag(wordCountPair.Key, new Font(imageSettings.FontFamily, size),
+                new Point(0, 0));
             result.Add(wordTag);
         }
 

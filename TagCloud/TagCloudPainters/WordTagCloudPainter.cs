@@ -5,6 +5,8 @@ using TagCloud.Infrastructure.Tags;
 using TagCloud.Logic.CloudLayouts;
 using TagCloud.Logic.PointGenerators.Factory;
 using TagCloud.WordHandlers;
+using Font = TagCloud.Model.Font;
+using Point = TagCloud.Model.Point;
 
 namespace TagCloud.TagCloudPainters;
 
@@ -31,7 +33,7 @@ public class WordTagCloudPainter(
 
         foreach (var tag in tags)
         {
-            using var font = new Font(imageSettings.FontFamily, tag.Font.Size);
+            var font = tag.Font with { Family = imageSettings.FontFamily };
             var frame =
                 cloudLayout.PutNextRectangle(CalculateWordSize(graphics, tag, font));
             var tagLocation = new Point(frame.X + imageSettings.Width / 2, frame.Y + imageSettings.Height / 2);
@@ -44,7 +46,8 @@ public class WordTagCloudPainter(
 
     private static Size CalculateWordSize(Graphics graphics, IWordTag wordTag, Font font)
     {
-        var textSize = graphics.MeasureString(wordTag.Value, font);
+        var textSize = graphics.MeasureString(wordTag.Value,
+            new System.Drawing.Font(font.Family, font.Size));
         var viewWidth = (int)Math.Ceiling(textSize.Width);
         var viewHeight = (int)Math.Ceiling(textSize.Height);
         var viewSize = new Size(viewWidth, viewHeight);
