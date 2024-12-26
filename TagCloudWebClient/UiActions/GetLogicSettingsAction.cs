@@ -7,6 +7,9 @@ namespace TagCloudWebClient.UiActions;
 
 public class GetLogicSettingsAction(ILogicSettingsProvider logicSettingsProvider) : IApiAction
 {
+    private readonly JsonSerializerOptions _jsonSerializerOptions =
+        new() { Converters = { new PointGeneratorTypeConverter() } };
+
     public string Endpoint => "/logic";
 
     public string HttpMethod => "GET";
@@ -14,8 +17,7 @@ public class GetLogicSettingsAction(ILogicSettingsProvider logicSettingsProvider
     public int Perform(Stream inputStream, Stream outputStream)
     {
         var settings = logicSettingsProvider.GetLogicSettings();
-        JsonSerializer.Serialize(outputStream, settings,
-            new JsonSerializerOptions { Converters = { new PointGeneratorTypeConverter() } });
+        JsonSerializer.Serialize(outputStream, settings, options: _jsonSerializerOptions);
         return (int)HttpStatusCode.OK;
     }
 }

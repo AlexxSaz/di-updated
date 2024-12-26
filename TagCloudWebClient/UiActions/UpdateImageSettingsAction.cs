@@ -9,13 +9,15 @@ namespace TagCloudWebClient.UiActions;
 
 public class UpdateImageSettingsAction(IImageSettingsProvider imageSettingsProvider) : IApiAction
 {
+    private readonly JsonSerializerOptions _jsonSerializerOptions =
+        new() { Converters = { new FontFamilyJsonConverter() } };
+
     public string Endpoint => "/settings";
     public string HttpMethod => "PUT";
 
     public int Perform(Stream inputStream, Stream outputStream)
     {
-        var updatedSettings = JsonSerializer.Deserialize<ImageSettings>(inputStream,
-            new JsonSerializerOptions { Converters = { new FontFamilyJsonConverter() } });
+        var updatedSettings = JsonSerializer.Deserialize<ImageSettings>(inputStream, _jsonSerializerOptions);
         imageSettingsProvider.SetWidth(updatedSettings?.Width ?? 1000);
         imageSettingsProvider.SetHeight(updatedSettings?.Height ?? 1000);
         imageSettingsProvider.SetFontFamily(updatedSettings?.FontFamily ?? new FontFamily("Arial"));
