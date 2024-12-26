@@ -2,16 +2,20 @@
 using FluentAssertions.Execution;
 using TagCloud.Calculators;
 using TagCloud.Infrastructure;
+using TagCloud.Infrastructure.Providers;
+using TagCloud.Infrastructure.Providers.Interfaces;
 
 namespace TagCloudTests;
 
 public class WordSizeCalculatorShould
 {
+    private readonly IImageSettingsProvider _imageSettingsProvider = new ImageSettingsProvider();
+    
     [Test]
     public void Calculate_ShouldReturnTagsWithSize_AfterExecutionWithOneWordCollection()
     {
-        var imageSettings = new ImageSettings();
-        var wordSizeCalculator = new WordSizeCalculator(imageSettings);
+        var imageSettings = _imageSettingsProvider.GetImageSettings();
+        var wordSizeCalculator = new WordSizeCalculator(_imageSettingsProvider);
         var oneWordCollection = new List<string>
         {
             "ясно", "ясно", "ясно", "ясно", "ясно", "ясно"
