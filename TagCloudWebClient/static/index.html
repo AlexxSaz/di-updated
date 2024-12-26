@@ -12,6 +12,10 @@
             display: flex;
             background: rgb(240, 240, 240);
         }
+        
+        .canvas {
+            border: 1px solid black;
+        }
 
         .dropbtn {
             color: black;
@@ -91,6 +95,16 @@
         .hidden {
             display: none;
         }
+
+        .custom-file-upload {
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f8f8f8;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -103,6 +117,23 @@
             <a href="#" id="palette-settings-btn">Палитра</a>
             <a href="#" id="logic-settings-btn">Логика</a>
         </div>
+    </div>
+
+    <div class="dropdown">
+        <input type="file" id="words-file-selector" accept=".txt" hidden/>
+        <label for="words-file-selector" class="dropbtn">Загрузить файл</label>
+    </div>
+
+    <div class="dropdown">
+        <button id="draw-btn" class="dropbtn">
+            Нарисовать
+        </button>
+    </div>
+
+    <div class="dropdown">
+        <a id="download-btn" class="dropbtn" style="cursor:default">
+            Скачать изображение
+        </a>
     </div>
 </nav>
 
@@ -197,13 +228,9 @@
     </div>
 </div>
 
-<div class="application">
-    <label for="words-file-selector">Select txt words file </label>
-    <input type="file" id="words-file-selector" accept=".txt"/>
-</div>
-<button id="save-btn" class="btn">
-    Download tag cloud
-</button>
+<canvas class="canvas">
+
+</canvas>
 
 </body>
 
@@ -287,36 +314,84 @@
     const fontColorInput = document.querySelector("#font-color-property");
     const palettePropertyBtn = document.querySelector("#palette-setting-btn");
 
-    let saveBtn = document.querySelector("#save-btn");
-    let inputElement = document.querySelector("#words-file-selector");
+    const canvas = document.querySelector(".canvas");
+    const ctx = canvas.getContext("2d");
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+    ctx.translate(canvasWidth / 2, canvasHeight / 2);
 
-    saveBtn.addEventListener("click", () => {
-        saveImage(inputElement.files[0]);
+    const drawBtn = document.querySelector("#draw-btn");
+    const inputElement = document.querySelector("#words-file-selector");
+    const downloadBtn = document.querySelector("#download-btn");
+
+    drawBtn.addEventListener("click", () => {
+        getWords(inputElement.files[0]);
     });
 
-    const saveImage = (fileName) => {
-        if (fileName === undefined) {
-            showErrorModal('You should select txt file first!');
+    downloadBtn.addEventListener('click', () => {
+        downloadImage();
+    });
+
+    const getWords = (inputFile) => {
+        if (inputFile === undefined) {
+            showErrorModal('Выберите текстовый файл!');
             return;
         }
-        post("/saveImage")
-            .then(image => loadFile(image))
-            .catch(error => {
-                if (error.Message) {
-                    showErrorModal(error.Message);
-                }
-            });
+
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            const fileContent = {
+                Words: e.target.result
+            }            
+            post("/getWords", fileContent) // Отправляем текст, а не inputFile
+                .then(words1 => draw(words1))
+                .catch(error => {
+                    if (error.message) { // message, а не Message
+                        showErrorModal(error.message);
+                    } else {
+                        showErrorModal("Произошла неизвестная ошибка."); // Обработка других ошибок
+                    }
+                });
+        };
+
+        reader.onerror = (error) => {
+            showErrorModal("Ошибка чтения файла: " + error);
+        };
+
+        reader.readAsText(inputFile);
     }
 
-    const loadFile = (pngFile) => {
-        let blobdtMIME =
-            new Blob([pngFile], { type: "image/png" })
-        let url = URL.createObjectURL(blobdtMIME)
-        let anele = document.createElement("a")
-        anele.setAttribute("download", "Downloaded Successfully");
-        anele.href = url;
-        anele.click();
-        console.log(blobdtMIME)
+    const draw = (words) => {
+        clearCanvas();
+        fillBackgroundColor();
+        let fontColor = hexToRgb(fontColorInput.value);
+        words.forEach(word => {
+            ctx.font = `${word.Font.Size}px ${word.Font.Family.Name}`;
+            ctx.fillStyle = `rgb(${fontColor.R},${fontColor.G},${fontColor.B})`;
+            ctx.fillText(word.Value, word.Location.X, word.Location.Y);
+        });
+    }
+
+    const clearCanvas = () => {
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.restore();
+    }
+
+    const fillBackgroundColor = () => {
+        let backgroundColor = hexToRgb(backgroundColorInput.value);
+        let backgroundWidth = widthPropertyInput.value;
+        let backgroundHeight = heightPropertyInput.value; 
+        ctx.fillStyle = `rgb(${backgroundColor.R},${backgroundColor.G},${backgroundColor.B})`;
+        ctx.fillRect(-backgroundWidth / 2, -backgroundHeight / 2, backgroundWidth * 2, backgroundHeight * 2);
+    }
+
+    const downloadImage = () => {
+        const dataUrl = canvas.toDataURL('image/png'); // 'image/png' указывает формат
+        downloadBtn.href = dataUrl;
+        downloadBtn.download = 'myCanvasImage.png';
     }
 
     const componentToHex = (c) => {
@@ -329,10 +404,9 @@
     }
 
     function hexToRgb(hex) {
-        // Улучшенное регулярное выражение для обработки 6- и 8-значных hex кодов
         const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?$/i.exec(hex);
         if (result) {
-            const a = 255; // Альфа-канал (255 по умолчанию)
+            const a = 255;
             const r = parseInt(result[1], 16);
             const g = parseInt(result[2], 16);
             const b = parseInt(result[3], 16);
@@ -351,6 +425,8 @@
             imageSettings = response;
             widthPropertyInput.value = imageSettings.Width;
             heightPropertyInput.value = imageSettings.Height;
+            canvas.width = imageSettings.Width;
+            canvas.height = imageSettings.Height;
             fontFamilyPropertyInput.value = imageSettings.FontFamily.Name;
             maxSizePropertyInput.value = imageSettings.MaxFontSize;
             minSizePropertyInput.value = imageSettings.MinFontSize;
@@ -394,29 +470,8 @@
         paletteSettingsModal.classList.remove("hidden");
     }
 
-    const updatePaletteSettings = () => {
-        closePaletteSettingModal();
-        paletteSettings.FontColor = hexToRgb(fontColorInput.value);
-        console.log(hexToRgb(fontColorInput.value))
-        paletteSettings.BackgroundColor = hexToRgb(backgroundColorInput.value);
-
-        put("/palette", paletteSettings)
-            .catch(error => {
-                if (error.Message) {
-                    showErrorModal(error.Message);
-                }
-            });
-    }
-
-    paletteSettingsModal.addEventListener("click", function (e) {
-        if (e.target !== paletteSettingsModal) {
-            return;
-        }
-        updatePaletteSettings();
-    });
-
     palettePropertyBtn.addEventListener("click", function (_) {
-        updatePaletteSettings();
+        closePaletteSettingModal();
     });
 
     const paletteSettingsBtn = document.querySelector("#palette-settings-btn");
@@ -434,6 +489,8 @@
         closeImageSettingModal();
         imageSettings.Width = Number(widthPropertyInput.value);
         imageSettings.Height = Number(heightPropertyInput.value);
+        canvas.width = imageSettings.Width;
+        canvas.height = imageSettings.Height;
         imageSettings.FontFamily = nameToFontFamily(fontFamilyPropertyInput.value);
         imageSettings.MaxFontSize = Number(maxSizePropertyInput.value);
         imageSettings.MinFontSize = Number(minSizePropertyInput.value);
