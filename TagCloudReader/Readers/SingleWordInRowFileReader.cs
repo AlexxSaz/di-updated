@@ -12,7 +12,7 @@ public class SingleWordInRowFileReader : IFileReader
     public IEnumerable<string> ReadFromString(string words) =>
         string.IsNullOrEmpty(words)
             ? _defaultWords
-            : words.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            : words.Split(["\n", "\r", "\r\n"], StringSplitOptions.RemoveEmptyEntries);
 
 
     private static bool IsValidFile(string path)
