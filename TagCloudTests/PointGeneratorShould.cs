@@ -14,7 +14,7 @@ public class PointGeneratorShould
     private static readonly LogicSettingsProvider LogicSettingsProvider = new();
     private readonly Point _defaultCenter = new();
     private readonly Random _random = new();
-    private readonly IPointGeneratorFactory _pointGeneratorFactory = new SimplePointGeneratorFactory();
+    private readonly IPointGeneratorFactory _pointGeneratorFactory = new StandardPointGeneratorFactory();
 
     [TestCase(PointGeneratorType.Spiral)]
     [TestCase(PointGeneratorType.Astroid)]

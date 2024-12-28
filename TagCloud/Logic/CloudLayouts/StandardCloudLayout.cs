@@ -8,13 +8,13 @@ using TagCloud.WordHandlers;
 
 namespace TagCloud.Logic.CloudLayouts;
 
-public class SimpleCloudLayout : ICloudLayout
+public class StandardCloudLayout : ICloudLayout
 {
     private readonly IEnumerator<Point> _pointGeneratorIterator;
 
     private readonly List<Rectangle> _rectangles = [];
 
-    public SimpleCloudLayout(LogicSettings logicSettings, IPointGeneratorFactory pointGeneratorFactory)
+    public StandardCloudLayout(LogicSettings logicSettings, IPointGeneratorFactory pointGeneratorFactory)
     {
         var pointGenerator = pointGeneratorFactory.CreatePointGenerator(logicSettings);
 

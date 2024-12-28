@@ -16,16 +16,16 @@ public class TagCloudModule : Module
     protected override void Load(ContainerBuilder builder)
     {
         builder.RegisterType<WordSizeCalculator>().As<ISizeCalculator>().SingleInstance();
-        builder.RegisterType<SimpleWordHandler>().As<IWordHandler>().SingleInstance();
-        builder.RegisterType<SimplePointGeneratorFactory>().As<IPointGeneratorFactory>().SingleInstance();
+        builder.RegisterType<StandardWordHandler>().As<IWordHandler>().SingleInstance();
+        builder.RegisterType<StandardPointGeneratorFactory>().As<IPointGeneratorFactory>().SingleInstance();
         
         builder.RegisterType<ImageSettingsProvider>().As<IImageSettingsProvider>().SingleInstance();
         builder.RegisterType<LogicSettingsProvider>().As<ILogicSettingsProvider>().SingleInstance();
         builder.RegisterType<PaletteProvider>().As<IPaletteProvider>().SingleInstance();
         
         builder.RegisterType<WordTagCloudPainter>().As<ITagCloudPainter>();
-        builder.RegisterType<SimpleWordTag>().As<IWordTag>();
-        builder.RegisterType<SimpleCloudLayout>().As<ICloudLayout>();
+        builder.RegisterType<StandardWordTag>().As<IWordTag>();
+        builder.RegisterType<StandardCloudLayout>().As<ICloudLayout>();
         
         builder.RegisterType<ImageSettings>().SingleInstance();
         builder.RegisterType<Palette>().SingleInstance();

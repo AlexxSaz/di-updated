@@ -2,7 +2,7 @@ using TagCloud.Readers;
 
 namespace TagCloud.WordHandlers;
 
-public class SimpleWordHandler(IFileReader reader) : IWordHandler
+public class StandardWordHandler(IFileReader reader) : IWordHandler
 {
     private const string BoringWordsFilePath = "BoringWordsDictionary.txt";
 

@@ -21,7 +21,7 @@ public class WordTagCloudPainter(
     {
         var result = new List<IWordTag>();
         const int rectangleOutline = 1;
-        var cloudLayout = new SimpleCloudLayout(logicSettings, new SimplePointGeneratorFactory());
+        var cloudLayout = new StandardCloudLayout(logicSettings, new StandardPointGeneratorFactory());
         var bitmap = new Bitmap(
             imageSettings.Width + rectangleOutline,
             imageSettings.Height + rectangleOutline);
@@ -37,7 +37,7 @@ public class WordTagCloudPainter(
             var frame =
                 cloudLayout.PutNextRectangle(CalculateWordSize(graphics, tag, font));
             var tagLocation = new Point(frame.X + imageSettings.Width / 2, frame.Y + imageSettings.Height / 2);
-            var tagToPrint = new SimpleWordTag(tag.Value, font, tagLocation);
+            var tagToPrint = new StandardWordTag(tag.Value, font, tagLocation);
             result.Add(tagToPrint);
         }
 

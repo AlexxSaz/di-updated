@@ -19,7 +19,7 @@ public class WordSizeCalculator(IImageSettingsProvider imageSettingsProvider) : 
         {
             var normalizedFrequency = GetNormalizedFrequency(wordCountPair.Value, maxFrequency);
             var size = GetSize(normalizedFrequency, imageSettings.MaxFontSize, imageSettings.MinFontSize);
-            var wordTag = new SimpleWordTag(wordCountPair.Key, new Font(imageSettings.FontFamily, size),
+            var wordTag = new StandardWordTag(wordCountPair.Key, new Font(imageSettings.FontFamily, size),
                 new Point(0, 0));
             result.Add(wordTag);
         }
