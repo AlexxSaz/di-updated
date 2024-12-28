@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
 using TagCloud.Calculators;
-using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Providers;
 using TagCloud.Infrastructure.Providers.Interfaces;
 

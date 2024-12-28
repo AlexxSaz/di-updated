@@ -3,7 +3,6 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using TagCloud.Extensions;
 using TagCloud.Infrastructure.Providers;
-using TagCloud.Infrastructure.Providers.Interfaces;
 using TagCloud.Logic.PointGenerators;
 using TagCloud.Logic.PointGenerators.Factory;
 

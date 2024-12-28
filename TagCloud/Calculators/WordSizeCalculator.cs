@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using TagCloud.Infrastructure.Providers.Interfaces;
+﻿using TagCloud.Infrastructure.Providers.Interfaces;
 using TagCloud.Infrastructure.Tags;
 using Font = TagCloud.Model.Font;
 using Point = TagCloud.Model.Point;
@@ -10,21 +9,16 @@ public class WordSizeCalculator(IImageSettingsProvider imageSettingsProvider) : 
 {
     public IReadOnlyCollection<IWordTag> Calculate(IEnumerable<string> words)
     {
-        var result = new List<IWordTag>();
         var dictionaryWithWordFrequency = GetDictionaryWithWordFrequency(words);
         var imageSettings = imageSettingsProvider.GetImageSettings();
         var maxFrequency = dictionaryWithWordFrequency.Values.Max();
 
-        foreach (var wordCountPair in dictionaryWithWordFrequency)
-        {
-            var normalizedFrequency = GetNormalizedFrequency(wordCountPair.Value, maxFrequency);
-            var size = GetSize(normalizedFrequency, imageSettings.MaxFontSize, imageSettings.MinFontSize);
-            var wordTag = new StandardWordTag(wordCountPair.Key, new Font(imageSettings.FontFamily, size),
-                new Point(0, 0));
-            result.Add(wordTag);
-        }
-
-        return result;
+        return (from wordCountPair in dictionaryWithWordFrequency
+                let normalizedFrequency = GetNormalizedFrequency(wordCountPair.Value, maxFrequency)
+                let size = GetSize(normalizedFrequency, imageSettings.MaxFontSize, imageSettings.MinFontSize)
+                select new StandardWordTag(wordCountPair.Key, new Font(imageSettings.FontFamily, size),
+                    new Point(0, 0)))
+            .Cast<IWordTag>().ToList();
     }
 
     private static Dictionary<string, int> GetDictionaryWithWordFrequency(IEnumerable<string> words)

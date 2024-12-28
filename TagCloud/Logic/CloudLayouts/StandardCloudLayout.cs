@@ -1,10 +1,7 @@
 ﻿using System.Drawing;
-using TagCloud.Calculators;
 using TagCloud.Extensions;
 using TagCloud.Infrastructure;
-using TagCloud.Infrastructure.Tags;
 using TagCloud.Logic.PointGenerators.Factory;
-using TagCloud.WordHandlers;
 
 namespace TagCloud.Logic.CloudLayouts;
 
@@ -21,13 +18,6 @@ public class StandardCloudLayout : ICloudLayout
         _pointGeneratorIterator = pointGenerator
             .GeneratePoint()
             .GetEnumerator();
-    }
-
-    public IReadOnlyCollection<IWordTag> GetTags(IEnumerable<string> words, IWordHandler wordHandler,
-        ISizeCalculator sizeCalculator)
-    {
-        var handledWords = wordHandler.Handle(words);
-        return sizeCalculator.Calculate(handledWords);
     }
 
     public Rectangle PutNextRectangle(Size size)

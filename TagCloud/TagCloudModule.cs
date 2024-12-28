@@ -4,6 +4,7 @@ using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Providers;
 using TagCloud.Infrastructure.Providers.Interfaces;
 using TagCloud.Infrastructure.Tags;
+using TagCloud.Logic.CloudContainers;
 using TagCloud.Logic.CloudLayouts;
 using TagCloud.Logic.PointGenerators.Factory;
 using TagCloud.TagCloudPainters;
@@ -17,13 +18,14 @@ public class TagCloudModule : Module
     {
         builder.RegisterType<WordSizeCalculator>().As<ISizeCalculator>().SingleInstance();
         builder.RegisterType<StandardWordHandler>().As<IWordHandler>().SingleInstance();
-        builder.RegisterType<StandardPointGeneratorFactory>().As<IPointGeneratorFactory>().SingleInstance();
+        builder.RegisterType<StandardPointGeneratorFactory>().As<IPointGeneratorFactory>();
         
         builder.RegisterType<ImageSettingsProvider>().As<IImageSettingsProvider>().SingleInstance();
         builder.RegisterType<LogicSettingsProvider>().As<ILogicSettingsProvider>().SingleInstance();
         builder.RegisterType<PaletteProvider>().As<IPaletteProvider>().SingleInstance();
         
         builder.RegisterType<WordTagCloudPainter>().As<ITagCloudPainter>();
+        builder.RegisterType<StandardTagCloud>().As<ITagCloud>();
         builder.RegisterType<StandardWordTag>().As<IWordTag>();
         builder.RegisterType<StandardCloudLayout>().As<ICloudLayout>();
         

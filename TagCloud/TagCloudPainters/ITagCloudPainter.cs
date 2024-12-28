@@ -6,7 +6,7 @@ namespace TagCloud.TagCloudPainters;
 public interface ITagCloudPainter
 {
     IReadOnlyCollection<IWordTag> PrintImage(
-        IEnumerable<string> words,
+        IEnumerable<IWordTag> wordTags,
         ImageSettings imageSettings,
         LogicSettings logicSettings);
 }
