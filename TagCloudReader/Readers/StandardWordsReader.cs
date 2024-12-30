@@ -1,10 +1,10 @@
-namespace TagCloud.Readers;
+namespace TagCloudReader.Readers;
 
-public class SingleWordInRowFileReader : IFileReader
+public class StandardWordsReader : IWordsReader
 {
     private readonly string[] _defaultWords = "Несколько дефолтных слов".Split();
 
-    public IEnumerable<string> Read(string path) =>
+    public IEnumerable<string> ReadFromTxt(string path) =>
         IsValidFile(path)
             ? File.ReadAllLines(path)
             : _defaultWords;
@@ -13,7 +13,6 @@ public class SingleWordInRowFileReader : IFileReader
         string.IsNullOrEmpty(words)
             ? _defaultWords
             : words.Split(["\n", "\r", "\r\n"], StringSplitOptions.RemoveEmptyEntries);
-
 
     private static bool IsValidFile(string path)
     {

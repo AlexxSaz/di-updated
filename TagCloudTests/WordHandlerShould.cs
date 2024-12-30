@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using TagCloud.Readers;
 using TagCloud.WordHandlers;
+using TagCloudReader.Readers;
 
 namespace TagCloudTests;
 
@@ -16,7 +16,7 @@ public class WordHandlerShould
         "ЯСНО", "ПОНЯТНО", "СЛОВО", "ДВА", "ДВАДЦАТЬДВА"
     ];
 
-    private static readonly IFileReader Reader = new SingleWordInRowFileReader();
+    private static readonly IWordsReader Reader = new StandardWordsReader();
 
     [Test]
     public void Handle_ShouldReturnWordsInLowerCase_AfterExecutionWithUpperCaseWords()

@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using TagCloud.Readers;
+using TagCloudReader.Readers;
 
 namespace TagCloudReader;
 
@@ -7,6 +7,6 @@ public class TagCloudReaderModule : Module
 {
     protected override void Load(ContainerBuilder builder)
     {
-        builder.RegisterType<SingleWordInRowFileReader>().As<IFileReader>().SingleInstance();
+        builder.RegisterType<StandardWordsReader>().As<IWordsReader>().SingleInstance();
     }
 }

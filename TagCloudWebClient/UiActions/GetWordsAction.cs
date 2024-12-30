@@ -1,14 +1,14 @@
 ﻿using System.Net;
 using System.Text.Json;
-using TagCloud.Readers;
 using TagCloud.TagCloudPainters;
+using TagCloudReader.Readers;
 using TagCloudWebClient.JsonConverters;
 
 namespace TagCloudWebClient.UiActions;
 
 public class GetWordsAction(
     ITagCloudPainter tagCloudPainter,
-    IFileReader reader) : IApiAction
+    IWordsReader reader) : IApiAction
 {
     private readonly JsonSerializerOptions _jsonSerializerOptions =
         new() { Converters = { new WordTagJsonConverter() } };
