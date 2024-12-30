@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 using TagCloud.Infrastructure.Providers.Interfaces;
-using TagCloud.Logic.CloudContainers;
 using TagCloud.Readers;
 using TagCloud.TagCloudPainters;
 using TagCloudConsoleClient.Options;
@@ -10,9 +9,7 @@ namespace TagCloudConsoleClient.Actions;
 
 public class SaveImageAction(
     ITagCloudPainter tagCloudPainter,
-    ITagCloud tagCloud,
     IImageSettingsProvider imageSettingsProvider,
-    ILogicSettingsProvider logicSettingsProvider,
     IPaletteProvider paletteProvider,
     IFileReader fileReader)
     : IConsoleAction
@@ -23,12 +20,10 @@ public class SaveImageAction(
     {
         var optionSettings = (SaveImageOption)option;
         var imageSettings = imageSettingsProvider.GetImageSettings();
-        var logicSettings = logicSettingsProvider.GetLogicSettings();
         var palette = paletteProvider.GetPalette();
 
         var words = fileReader.Read(optionSettings.InputTxtFile);
-        var wordTags = tagCloud.GetTags(words);
-        var tagsInCloud = tagCloudPainter.PrintImage(wordTags, imageSettings, logicSettings);
+        var tagsInCloud = tagCloudPainter.GetTagsToPrintImage(words);
 
         const int rectangleOutline = 1;
         using var bitmap = new Bitmap(

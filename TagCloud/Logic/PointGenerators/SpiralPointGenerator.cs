@@ -9,6 +9,7 @@ public class SpiralPointGenerator(LogicSettings logicSettings) : IPointGenerator
     private readonly Size _centerPointSize = logicSettings.Center;
     private readonly double _angleStep = logicSettings.AngleStep;
     private readonly double _radiusStep = logicSettings.RadiusStep;
+    public PointGeneratorType PointGeneratorType => PointGeneratorType.Spiral;
 
     public IEnumerable<Point> GeneratePoint()
     {

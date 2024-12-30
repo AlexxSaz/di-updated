@@ -4,7 +4,6 @@ using FluentAssertions.Execution;
 using TagCloud.Extensions;
 using TagCloud.Infrastructure.Providers;
 using TagCloud.Logic.PointGenerators;
-using TagCloud.Logic.PointGenerators.Factory;
 
 namespace TagCloudTests;
 
@@ -13,7 +12,6 @@ public class PointGeneratorShould
     private static readonly LogicSettingsProvider LogicSettingsProvider = new();
     private readonly Point _defaultCenter = new();
     private readonly Random _random = new();
-    private readonly IPointGeneratorFactory _pointGeneratorFactory = new StandardPointGeneratorFactory();
 
     [TestCase(PointGeneratorType.Spiral)]
     [TestCase(PointGeneratorType.Astroid)]
@@ -38,9 +36,7 @@ public class PointGeneratorShould
     [Repeat(20)]
     public void GetNewPoint_ReturnPointWithGreaterRadius_WithPointGenerator(PointGeneratorType pointGeneratorType)
     {
-        LogicSettingsProvider.SetPointGenerator(pointGeneratorType);
-        var logicSettings = LogicSettingsProvider.GetLogicSettings();
-        var newPointGenerator = _pointGeneratorFactory.CreatePointGenerator(logicSettings);
+        var newPointGenerator = GetPointGenerator(pointGeneratorType);
         var countOfPoints = _random.Next(10, 200);
         var points = newPointGenerator
             .GeneratePoint()
@@ -66,4 +62,12 @@ public class PointGeneratorShould
             .Should()
             .BeTrue();
     }
+
+    private static IPointGenerator GetPointGenerator(PointGeneratorType pointGeneratorType) =>
+        pointGeneratorType switch
+        {
+            PointGeneratorType.Spiral => new SpiralPointGenerator(LogicSettingsProvider.GetLogicSettings()),
+            PointGeneratorType.Astroid => new AstroidPointGenerator(LogicSettingsProvider.GetLogicSettings()),
+            _ => throw new ArgumentOutOfRangeException(nameof(pointGeneratorType), pointGeneratorType, null)
+        };
 }

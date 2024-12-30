@@ -9,6 +9,7 @@ public class AstroidPointGenerator(LogicSettings logicSettings) : IPointGenerato
     private readonly Size _centerPointSize = logicSettings.Center;
     private readonly double _angleStep = logicSettings.AngleStep;
     private readonly double _radiusStep = logicSettings.RadiusStep;
+    public PointGeneratorType PointGeneratorType => PointGeneratorType.Astroid;
 
     public IEnumerable<Point> GeneratePoint()
     {

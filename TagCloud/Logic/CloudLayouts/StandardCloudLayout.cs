@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using TagCloud.Extensions;
-using TagCloud.Infrastructure;
-using TagCloud.Logic.PointGenerators.Factory;
+using TagCloud.Infrastructure.Providers.Interfaces;
+using TagCloud.Logic.PointGenerators;
 
 namespace TagCloud.Logic.CloudLayouts;
 
@@ -11,13 +11,26 @@ public class StandardCloudLayout : ICloudLayout
 
     private readonly List<Rectangle> _rectangles = [];
 
-    public StandardCloudLayout(LogicSettings logicSettings, IPointGeneratorFactory pointGeneratorFactory)
+    public StandardCloudLayout(ILogicSettingsProvider logicSettingsProvider, IPointGenerator[] pointGenerators)
     {
-        var pointGenerator = pointGeneratorFactory.CreatePointGenerator(logicSettings);
+        var logicSettings = logicSettingsProvider.GetLogicSettings();
+        var pointGeneratorType = logicSettings.PointGeneratorType;
+        var pointGenerator = GetPointGenerator(pointGeneratorType, pointGenerators);
 
         _pointGeneratorIterator = pointGenerator
             .GeneratePoint()
             .GetEnumerator();
+    }
+
+    private static IPointGenerator GetPointGenerator(PointGeneratorType pointGeneratorType, IPointGenerator[] pointGenerators)
+    {
+        var pointGenerator = pointGenerators.FirstOrDefault(pg => pg.PointGeneratorType == pointGeneratorType);
+
+        if (pointGenerator == null)
+            throw new ArgumentOutOfRangeException(nameof(pointGeneratorType),
+                pointGeneratorType,
+                "No such pointGenerator type.");
+        return pointGenerator;
     }
 
     public Rectangle PutNextRectangle(Size size)

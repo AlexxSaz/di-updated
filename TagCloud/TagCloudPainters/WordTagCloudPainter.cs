@@ -1,31 +1,31 @@
 using System.Drawing;
-using TagCloud.Infrastructure;
+using TagCloud.Infrastructure.Providers.Interfaces;
 using TagCloud.Infrastructure.Tags;
 using TagCloud.Logic.CloudContainers;
-using TagCloud.Logic.CloudLayouts;
-using TagCloud.Logic.PointGenerators.Factory;
 using Font = TagCloud.Model.Font;
 using Point = TagCloud.Model.Point;
 
 namespace TagCloud.TagCloudPainters;
 
-public class WordTagCloudPainter : ITagCloudPainter
+public class WordTagCloudPainter(
+    Func<ITagCloud> tagCloudFactory,
+    IImageSettingsProvider imageSettingsProvider) : ITagCloudPainter
 {
-    public IReadOnlyCollection<IWordTag> PrintImage(
-        IEnumerable<IWordTag> wordTags,
-        ImageSettings imageSettings,
-        LogicSettings logicSettings)
+    public IReadOnlyCollection<IWordTag> GetTagsToPrintImage(
+        IEnumerable<string> words)
     {
-        const int rectangleOutline = 1;
-        var cloudLayout = new StandardCloudLayout(logicSettings, new StandardPointGeneratorFactory());
+        var imageSettings = imageSettingsProvider.GetImageSettings();
+        var tagCloud = tagCloudFactory();
+        
         using var bitmap = new Bitmap(
-            imageSettings.Width + rectangleOutline,
-            imageSettings.Height + rectangleOutline);
+            imageSettings.Width,
+            imageSettings.Height);
         using var graphics = Graphics.FromImage(bitmap);
+        var wordTags = tagCloud.GetTags(words);
 
         return (from tag in wordTags
             let font = tag.Font with { Family = imageSettings.FontFamily }
-            let frame = cloudLayout.PutNextRectangle(CalculateWordSize(graphics, tag, font))
+            let frame = tagCloud.CloudLayout.PutNextRectangle(CalculateWordSize(graphics, tag, font))
             let tagLocation = new Point(frame.X + imageSettings.Width / 2, frame.Y + imageSettings.Height / 2)
             select new StandardWordTag(tag.Value, font, tagLocation)).Cast<IWordTag>().ToList();
     }
