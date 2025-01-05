@@ -18,9 +18,7 @@ public class UpdateLogicSettingsAction(ILogicSettingsProvider logicSettingsProvi
     public int Perform(Stream inputStream, Stream outputStream)
     {
         var updatedSettings = JsonSerializer.Deserialize<LogicSettings>(inputStream, options: _jsonSerializerOptions);
-        logicSettingsProvider.SetAngleStep(updatedSettings?.AngleStep ?? 0.01);
-        logicSettingsProvider.SetRadiusStep(updatedSettings?.RadiusStep ?? 0.01);
-        logicSettingsProvider.SetPointGenerator(updatedSettings?.PointGeneratorType ?? PointGeneratorType.Spiral);
+        if (updatedSettings != null) logicSettingsProvider.SetLogicSettings(updatedSettings);
         var settings = logicSettingsProvider.GetLogicSettings();
         JsonSerializer.Serialize(outputStream, settings, options: _jsonSerializerOptions);
 

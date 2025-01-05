@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Providers.Interfaces;
 using TagCloudConsoleClient.Options;
 
@@ -12,18 +13,28 @@ public class ImageSettingsAction(IImageSettingsProvider imageSettingsProvider) :
     {
         var optionSettings = (ImageSettingsOption)option;
         var fontFamily = GetFontFamily(optionSettings.FontFamily);
-        imageSettingsProvider.SetWidth(optionSettings.Width);
-        imageSettingsProvider.SetHeight(optionSettings.Height);
-        imageSettingsProvider.SetFontFamily(fontFamily);
-        imageSettingsProvider.SetMaxFontSize(optionSettings.MaxFontSize);
-        imageSettingsProvider.SetMinFontSize(optionSettings.MinFontSize);
+        imageSettingsProvider.SetImageSettings(CreateImageSetting(optionSettings));
         return $"Настройки изображения изменены.{Environment.NewLine}" +
                $"Ширина {optionSettings.Width}, высота {optionSettings.Height}.{Environment.NewLine}" +
                $"Максимальный размер текста {optionSettings.MaxFontSize}, минимальный {optionSettings.MinFontSize}.{Environment.NewLine}" +
                $"Тип шрифта {fontFamily.Name}";
     }
 
-    private FontFamily GetFontFamily(byte optionSettingsFontFamily) =>
+    private static ImageSettings CreateImageSetting(ImageSettingsOption imageSettingsOption)
+    {
+        var imageSettings = new ImageSettings();
+
+        return imageSettings with
+        {
+            FontFamily = GetFontFamily(imageSettingsOption.FontFamily),
+            MaxFontSize = imageSettingsOption.MaxFontSize,
+            MinFontSize = imageSettingsOption.MinFontSize,
+            Width = imageSettingsOption.Width,
+            Height = imageSettingsOption.Height
+        };
+    }
+
+    private static FontFamily GetFontFamily(byte optionSettingsFontFamily) =>
         optionSettingsFontFamily switch
         {
             1 => new FontFamily("Arial"),

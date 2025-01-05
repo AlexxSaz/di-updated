@@ -2,6 +2,7 @@
 using FluentAssertions;
 using FluentAssertions.Execution;
 using TagCloud.Extensions;
+using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Providers;
 using TagCloud.Logic.PointGenerators;
 
@@ -17,7 +18,9 @@ public class PointGeneratorShould
     [TestCase(PointGeneratorType.Astroid)]
     public void GetNewPoint_ReturnCenter_AfterFirstExecutionWith(PointGeneratorType pointGeneratorType)
     {
-        LogicSettingsProvider.SetPointGenerator(pointGeneratorType);
+        var logicSettingsToSet = new LogicSettings();
+        logicSettingsToSet = logicSettingsToSet with { PointGeneratorType = pointGeneratorType };
+        LogicSettingsProvider.SetLogicSettings(logicSettingsToSet);
         var logicSettings = LogicSettingsProvider.GetLogicSettings();
         var pointGenerator = new SpiralPointGenerator(logicSettings);
         using var newPointIterator = pointGenerator

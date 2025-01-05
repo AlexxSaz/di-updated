@@ -1,6 +1,8 @@
 ﻿using System.Drawing;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using TagCloud.Extensions;
+using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Providers;
 using TagCloud.Logic.CloudLayouts;
 using TagCloud.Logic.PointGenerators;
@@ -20,7 +22,9 @@ public class SimpleCloudLayoutShould
     public void PutNextRectangle_ReturnRectangleWithExpectedLocation_AfterFirstExecution()
     {
         var expectedCenter = new Point(_random.Next(-10, 10), _random.Next(-10, 10));
-        _logicSettingsProvider.SetCenterSize(new Size(expectedCenter));
+        var logicSettingsToSet = new LogicSettings();
+        logicSettingsToSet = logicSettingsToSet with { Center = new Size(expectedCenter) };
+        _logicSettingsProvider.SetLogicSettings(logicSettingsToSet);
         var logicSettings = _logicSettingsProvider.GetLogicSettings();
         IPointGenerator[] pointGenerators =
         [

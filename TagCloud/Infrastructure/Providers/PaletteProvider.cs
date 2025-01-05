@@ -10,9 +10,5 @@ public class PaletteProvider : IPaletteProvider
     public Palette GetPalette() =>
         _palette;
 
-    public void SetFontColor(Color color) =>
-        _palette = _palette with { FontColor = color };
-
-    public void SetBackgroundColor(Color color) =>
-        _palette = _palette with { BackgroundColor = color };
+    public void SetPalette(Palette palette) => _palette = palette;
 }

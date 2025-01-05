@@ -18,11 +18,7 @@ public class UpdateImageSettingsAction(IImageSettingsProvider imageSettingsProvi
     public int Perform(Stream inputStream, Stream outputStream)
     {
         var updatedSettings = JsonSerializer.Deserialize<ImageSettings>(inputStream, _jsonSerializerOptions);
-        imageSettingsProvider.SetWidth(updatedSettings?.Width ?? 1000);
-        imageSettingsProvider.SetHeight(updatedSettings?.Height ?? 1000);
-        imageSettingsProvider.SetFontFamily(updatedSettings?.FontFamily ?? new FontFamily("Arial"));
-        imageSettingsProvider.SetMaxFontSize(updatedSettings?.MaxFontSize ?? 24);
-        imageSettingsProvider.SetMinFontSize(updatedSettings?.MinFontSize ?? 8);
+        if (updatedSettings != null) imageSettingsProvider.SetImageSettings(updatedSettings);
         var settings = imageSettingsProvider.GetImageSettings();
         JsonSerializer.Serialize(outputStream, settings);
 

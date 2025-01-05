@@ -1,4 +1,5 @@
-﻿using TagCloud.Infrastructure.Providers.Interfaces;
+﻿using TagCloud.Infrastructure;
+using TagCloud.Infrastructure.Providers.Interfaces;
 using TagCloud.Logic.PointGenerators;
 using TagCloudConsoleClient.Options;
 
@@ -11,13 +12,22 @@ public class LogicSettingsAction(ILogicSettingsProvider logicSettingsProvider) :
     public string Perform(IOption option)
     {
         var optionSettings = (LogicSettingsOption)option;
-        var pointGeneratorType = GetPointGeneratorType(optionSettings.PointGeneratorType);
-        logicSettingsProvider.SetAngleStep(optionSettings.AngleStep);
-        logicSettingsProvider.SetRadiusStep(optionSettings.RadiusStep);
-        logicSettingsProvider.SetPointGenerator(pointGeneratorType);
+        logicSettingsProvider.SetLogicSettings(CreateImageSetting(optionSettings));
         return $"Настройки логики изменены.\n" +
                $"Шаг угола {optionSettings.AngleStep}, шаг радиуса {optionSettings.RadiusStep}.\n" +
-               $"Форма генерации точек: {pointGeneratorType}.";
+               $"Форма генерации точек: {GetPointGeneratorType(optionSettings.PointGeneratorType)}.\n";
+    }
+    
+    private static LogicSettings CreateImageSetting(LogicSettingsOption logicSettingsOption)
+    {
+        var logicSettings = new LogicSettings();
+
+        return logicSettings with
+        {
+            AngleStep = logicSettingsOption.AngleStep,
+            RadiusStep = logicSettingsOption.RadiusStep,
+            PointGeneratorType = GetPointGeneratorType(logicSettingsOption.PointGeneratorType)
+        };
     }
 
     private static PointGeneratorType GetPointGeneratorType(int optionSettingsPointGeneratorType) =>

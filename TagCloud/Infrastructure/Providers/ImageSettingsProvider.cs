@@ -9,18 +9,5 @@ public class ImageSettingsProvider : IImageSettingsProvider
 
     public ImageSettings GetImageSettings() => _imageSettings;
 
-    public void SetWidth(int width) =>
-        _imageSettings = _imageSettings with { Width = width };
-
-    public void SetHeight(int height) =>
-        _imageSettings = _imageSettings with { Height = height };
-
-    public void SetFontFamily(FontFamily fontFamily) =>
-        _imageSettings = _imageSettings with { FontFamily = fontFamily };
-
-    public void SetMaxFontSize(int maxFontSize) =>
-        _imageSettings = _imageSettings with { MaxFontSize = maxFontSize };
-
-    public void SetMinFontSize(int minFontSize) =>
-        _imageSettings = _imageSettings with { MinFontSize = minFontSize };
+    public void SetImageSettings(ImageSettings imageSettings) => _imageSettings = imageSettings;
 }

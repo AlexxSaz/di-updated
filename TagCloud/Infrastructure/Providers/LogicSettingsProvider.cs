@@ -11,15 +11,5 @@ public class LogicSettingsProvider : ILogicSettingsProvider
     public LogicSettings GetLogicSettings() =>
         _logicSettings;
 
-    public void SetRadiusStep(double radiusStep) =>
-        _logicSettings = _logicSettings with { RadiusStep = radiusStep };
-
-    public void SetAngleStep(double angleStep) =>
-        _logicSettings = _logicSettings with { AngleStep = angleStep };
-
-    public void SetCenterSize(Size centerSize) =>
-        _logicSettings = _logicSettings with { Center = centerSize };
-
-    public void SetPointGenerator(PointGeneratorType pointGeneratorType) =>
-        _logicSettings = _logicSettings with { PointGeneratorType = pointGeneratorType };
+    public void SetLogicSettings(LogicSettings logicSettings) => _logicSettings = logicSettings;
 }
