@@ -18,7 +18,7 @@ public class PaletteAction(IPaletteProvider paletteProvider) : IConsoleAction
             $"Цвета установлены. Цвет текста - {optionSettings.Font}, цвет фона - {optionSettings.Background}.";
     }
 
-    private Palette CreatePalette(ColorSettingsOption optionSettings, Palette palette) =>
+    private static Palette CreatePalette(ColorSettingsOption optionSettings, Palette palette) =>
         palette with
         {
             FontColor = optionSettings.Font, 

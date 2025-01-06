@@ -4,7 +4,7 @@ using TagCloudReader.Readers;
 
 namespace TagCloudTests;
 
-public class WordHandlerShould
+public class StandardWordHandlerShould
 {
     private static readonly HashSet<string> TestWords =
     [

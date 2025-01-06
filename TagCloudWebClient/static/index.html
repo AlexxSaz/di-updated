@@ -225,6 +225,10 @@
                     </select>
                 </td>
             </tr>
+            <tr class="property-row">
+                <td class="property-cell"><span>Excluded Words</span></td>
+                <td class="property-cell"><label><input type="text" step="any" id="excludedWords-property"/></label></td>
+            </tr>
         </table>
         <button id="logic-setting-btn" class="property-btn">OK</button>
     </div>
@@ -391,7 +395,7 @@
     }
 
     const downloadImage = () => {
-        const dataUrl = canvas.toDataURL('image/png'); // 'image/png' указывает формат
+        const dataUrl = canvas.toDataURL('image/png');
         downloadBtn.href = dataUrl;
         downloadBtn.download = 'myCanvasImage.png';
     }
@@ -457,6 +461,7 @@
             radiusStepPropertyInput.value = logicSettings.RadiusStep;
             angleStepPropertyInput.value = logicSettings.AngleStep;
             tagCloudShapePropertyInput.value = logicSettings.PointGeneratorType;
+            excludedWordsPropertyInput.value = Array.from(logicSettings.Exclusions).join(" ");
         })
         .catch(error => {
             if (error.Message) {
@@ -528,6 +533,7 @@
     const radiusStepPropertyInput = document.querySelector("#radiusStep-property");
     const angleStepPropertyInput = document.querySelector("#angleStep-property");
     const tagCloudShapePropertyInput = document.querySelector("#tagCloudShape-property");
+    const excludedWordsPropertyInput = document.querySelector("#excludedWords-property");
     const logicPropertyBtn = document.querySelector("#logic-setting-btn");
 
     const logicSettingsBtn = document.querySelector("#logic-settings-btn");
@@ -546,6 +552,7 @@
         logicSettings.RadiusStep = Number(radiusStepPropertyInput.value);
         logicSettings.AngleStep = Number(angleStepPropertyInput.value);
         logicSettings.PointGeneratorType = Number(tagCloudShapePropertyInput.value);
+        logicSettings.Exclusions = multiSplit(excludedWordsPropertyInput.value, [',', ' ', ';']);
 
         put("/logic", logicSettings)
             .catch(error => {
@@ -553,6 +560,20 @@
                     showErrorModal(error.Message);
                 }
             });
+    }
+
+    const multiSplit = (str, delimeters) => {
+        let result = [str];
+        if (typeof (delimeters) == 'string')
+            delimeters = [delimeters];
+        while (delimeters.length > 0) {
+            for (let i = 0; i < result.length; i++) {
+                let tempSplit = result[i].split(delimeters[0]);
+                result = result.slice(0, i).concat(tempSplit).concat(result.slice(i + 1));
+            }
+            delimeters.shift();
+        }
+        return result.filter(item => item.trim() !== '');
     }
 
     logicSettingsModal.addEventListener("click", function (e) {

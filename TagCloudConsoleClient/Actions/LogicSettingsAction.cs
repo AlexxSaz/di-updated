@@ -13,18 +13,21 @@ public class LogicSettingsAction(ILogicSettingsProvider logicSettingsProvider)
     {
         var optionSettings = (LogicSettingsOption)option;
         var logicSettings = logicSettingsProvider.GetLogicSettings();
-        var currentLogicSettings = CreateImageSetting(optionSettings, logicSettings);
+        var currentLogicSettings = CreateLogicSetting(optionSettings, logicSettings);
         logicSettingsProvider.SetLogicSettings(currentLogicSettings);
         return $"Настройки логики изменены.\n" +
                $"Шаг угола {optionSettings.AngleStep}, шаг радиуса {optionSettings.RadiusStep}.\n" +
-               $"Форма генерации точек: {optionSettings.PointGeneratorType}.\n";
+               $"Форма генерации точек: {optionSettings.PointGeneratorType}.\n" +
+               $"Исключенные слова: {string.Join(", ", optionSettings.ExcludedWords.ToHashSet())}.\n";
     }
 
-    private LogicSettings CreateImageSetting(LogicSettingsOption logicSettingsOption, LogicSettings logicSettings) =>
+    private static LogicSettings CreateLogicSetting(LogicSettingsOption logicSettingsOption,
+        LogicSettings logicSettings) =>
         logicSettings with
         {
             AngleStep = logicSettingsOption.AngleStep,
             RadiusStep = logicSettingsOption.RadiusStep,
-            PointGeneratorType = logicSettingsOption.PointGeneratorType
+            PointGeneratorType = logicSettingsOption.PointGeneratorType,
+            Exclusions = logicSettingsOption.ExcludedWords.ToHashSet()
         };
 }

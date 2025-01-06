@@ -18,6 +18,7 @@ public class TagCloudModule : Module
     {
         builder.RegisterType<WordSizeCalculator>().As<ISizeCalculator>().SingleInstance();
         builder.RegisterType<StandardWordHandler>().As<IWordHandler>().SingleInstance();
+        builder.RegisterType<ExcludeWordHandler>().As<IWordHandler>();
         builder.RegisterType<AstroidPointGenerator>().As<IPointGenerator>();
         builder.RegisterType<SpiralPointGenerator>().As<IPointGenerator>();
         

@@ -12,8 +12,11 @@ public class LogicSettingsOption : IOption
     [Option('r', "radiusStep", HelpText = "Шаг увеличения радиуса спирали.")]
     public double RadiusStep { get; set; } = 0.01;
 
-    [Option('g', "generatorType", HelpText = "Тип генератора точек.\n1 - Спираль\n2 - Астроида")]
+    [Option('g', "generatorType", HelpText = "Тип генератора точек.")]
     public PointGeneratorType PointGeneratorType { get; set; } = PointGeneratorType.Spiral;
+    
+    [Option('e', "excludeWords", HelpText = "Исключить слова из облака")]
+    public IEnumerable<string> ExcludedWords { get; set; } = [];
 
     public OptionType OptionType => OptionType.Logic;
 }
