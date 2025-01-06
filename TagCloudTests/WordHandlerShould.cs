@@ -19,7 +19,7 @@ public class WordHandlerShould
     private static readonly IWordsReader Reader = new StandardWordsReader();
 
     [Test]
-    public void Handle_ShouldReturnWordsInLowerCase_AfterExecutionWithUpperCaseWords()
+    public void Handle_ReturnWordsInLowerCase_AfterExecutionWithUpperCaseWords()
     {
         var wordHandler = new StandardWordHandler(Reader);
         var expectedUpperCaseWords = new HashSet<string>
@@ -33,7 +33,7 @@ public class WordHandlerShould
     }
 
     [Test]
-    public void Handle_ShouldExcludeBoringWords_AfterExecution()
+    public void Handle_ExcludeBoringWords_AfterExecution()
     {
         var wordHandler = new StandardWordHandler(Reader);
         var expectedGoodWords = new HashSet<string>
