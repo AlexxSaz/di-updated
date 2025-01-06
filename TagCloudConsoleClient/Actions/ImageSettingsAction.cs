@@ -4,7 +4,7 @@ using TagCloudConsoleClient.Options;
 
 namespace TagCloudConsoleClient.Actions;
 
-public class ImageSettingsAction(IImageSettingsProvider imageSettingsProvider, ImageSettings imageSettings)
+public class ImageSettingsAction(IImageSettingsProvider imageSettingsProvider)
     : IConsoleAction
 {
     public OptionType OptionType => OptionType.Image;
@@ -12,7 +12,8 @@ public class ImageSettingsAction(IImageSettingsProvider imageSettingsProvider, I
     public string Perform(IOption option)
     {
         var optionSettings = (ImageSettingsOption)option;
-        var currentImageSettings = CreateImageSetting(optionSettings);
+        var imageSettings = imageSettingsProvider.GetImageSettings();
+        var currentImageSettings = CreateImageSetting(optionSettings, imageSettings);
         imageSettingsProvider.SetImageSettings(currentImageSettings);
         return $"Настройки изображения изменены.\n" +
                $"Ширина {optionSettings.Width}, высота {optionSettings.Height}.\n" +
@@ -20,7 +21,7 @@ public class ImageSettingsAction(IImageSettingsProvider imageSettingsProvider, I
                $"Тип шрифта {optionSettings.FontFamily.Name}";
     }
 
-    private ImageSettings CreateImageSetting(ImageSettingsOption imageSettingsOption) =>
+    private static ImageSettings CreateImageSetting(ImageSettingsOption imageSettingsOption, ImageSettings imageSettings) =>
         imageSettings with
         {
             FontFamily = imageSettingsOption.FontFamily,

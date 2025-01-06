@@ -4,7 +4,7 @@ using TagCloudConsoleClient.Options;
 
 namespace TagCloudConsoleClient.Actions;
 
-public class LogicSettingsAction(ILogicSettingsProvider logicSettingsProvider, LogicSettings logicSettings)
+public class LogicSettingsAction(ILogicSettingsProvider logicSettingsProvider)
     : IConsoleAction
 {
     public OptionType OptionType => OptionType.Logic;
@@ -12,14 +12,15 @@ public class LogicSettingsAction(ILogicSettingsProvider logicSettingsProvider, L
     public string Perform(IOption option)
     {
         var optionSettings = (LogicSettingsOption)option;
-        var currentLogicSettings = CreateImageSetting(optionSettings);
+        var logicSettings = logicSettingsProvider.GetLogicSettings();
+        var currentLogicSettings = CreateImageSetting(optionSettings, logicSettings);
         logicSettingsProvider.SetLogicSettings(currentLogicSettings);
         return $"Настройки логики изменены.\n" +
                $"Шаг угола {optionSettings.AngleStep}, шаг радиуса {optionSettings.RadiusStep}.\n" +
                $"Форма генерации точек: {optionSettings.PointGeneratorType}.\n";
     }
 
-    private LogicSettings CreateImageSetting(LogicSettingsOption logicSettingsOption) =>
+    private LogicSettings CreateImageSetting(LogicSettingsOption logicSettingsOption, LogicSettings logicSettings) =>
         logicSettings with
         {
             AngleStep = logicSettingsOption.AngleStep,

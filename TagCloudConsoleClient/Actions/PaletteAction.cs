@@ -4,19 +4,24 @@ using TagCloudConsoleClient.Options;
 
 namespace TagCloudConsoleClient.Actions;
 
-public class PaletteAction(IPaletteProvider paletteProvider, Palette palette) : IConsoleAction
+public class PaletteAction(IPaletteProvider paletteProvider) : IConsoleAction
 {
     public OptionType OptionType => OptionType.Color;
 
     public string Perform(IOption option)
     {
         var optionSettings = (ColorSettingsOption)option;
-        var currentPalette = CreatePalette(optionSettings);
+        var palette = paletteProvider.GetPalette();
+        var currentPalette = CreatePalette(optionSettings, palette);
         paletteProvider.SetPalette(currentPalette);
         return
             $"Цвета установлены. Цвет текста - {optionSettings.Font}, цвет фона - {optionSettings.Background}.";
     }
 
-    private Palette CreatePalette(ColorSettingsOption optionSettings) =>
-        palette with { FontColor = optionSettings.Font, BackgroundColor = optionSettings.Background };
+    private Palette CreatePalette(ColorSettingsOption optionSettings, Palette palette) =>
+        palette with
+        {
+            FontColor = optionSettings.Font, 
+            BackgroundColor = optionSettings.Background
+        };
 }

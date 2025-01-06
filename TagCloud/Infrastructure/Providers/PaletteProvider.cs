@@ -6,8 +6,7 @@ public class PaletteProvider : IPaletteProvider
 {
     private Palette _palette = new();
 
-    public Palette GetPalette() =>
-        _palette;
+    public Palette GetPalette() => _palette;
 
     public void SetPalette(Palette palette) => _palette = palette;
 }
