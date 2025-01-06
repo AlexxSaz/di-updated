@@ -1,4 +1,5 @@
-﻿using CommandLine;
+﻿using System.Drawing;
+using CommandLine;
 
 namespace TagCloudConsoleClient.Options;
 
@@ -12,7 +13,7 @@ public class ImageSettingsOption : IOption
     public int Height { get; set; } = 2000;
     
     [Option('f', "font", HelpText = "Вид шрифта")]
-    public byte FontFamily { get; set; } = 1;
+    public FontFamily FontFamily { get; set; } = FontFamily.GenericSansSerif;
     
     [Option('u', "upper", HelpText = "Максимальный размер шрифта")]
     public byte MaxFontSize { get; set; } = 36;

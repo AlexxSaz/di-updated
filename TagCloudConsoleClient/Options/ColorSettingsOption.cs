@@ -1,3 +1,4 @@
+using System.Drawing;
 using CommandLine;
 
 namespace TagCloudConsoleClient.Options;
@@ -6,10 +7,10 @@ namespace TagCloudConsoleClient.Options;
 public class ColorSettingsOption : IOption
 {
     [Option('f', "font", HelpText = "Цвет текста")]
-    public byte Font { get; set; } = 1;
+    public Color Font { get; set; } = Color.Black;
 
     [Option('b', "background", HelpText = "Цвет заливки")]
-    public byte Background { get; set; } = 2;
+    public Color Background { get; set; } = Color.White;
 
     public OptionType OptionType => OptionType.Color;
 }

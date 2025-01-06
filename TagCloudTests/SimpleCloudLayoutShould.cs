@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using TagCloud.Extensions;
 using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Providers;

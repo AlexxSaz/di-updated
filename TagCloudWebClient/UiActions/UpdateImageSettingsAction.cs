@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Net;
+﻿using System.Net;
 using System.Text.Json;
 using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Providers.Interfaces;

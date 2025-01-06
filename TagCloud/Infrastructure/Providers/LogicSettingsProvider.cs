@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using TagCloud.Infrastructure.Providers.Interfaces;
-using TagCloud.Logic.PointGenerators;
+﻿using TagCloud.Infrastructure.Providers.Interfaces;
 
 namespace TagCloud.Infrastructure.Providers;
 

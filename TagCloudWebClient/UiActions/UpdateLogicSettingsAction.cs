@@ -2,7 +2,6 @@
 using System.Text.Json;
 using TagCloud.Infrastructure;
 using TagCloud.Infrastructure.Providers.Interfaces;
-using TagCloud.Logic.PointGenerators;
 using TagCloudWebClient.JsonConverters;
 
 namespace TagCloudWebClient.UiActions;

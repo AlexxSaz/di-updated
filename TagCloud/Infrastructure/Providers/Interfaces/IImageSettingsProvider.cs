@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace TagCloud.Infrastructure.Providers.Interfaces;
+﻿namespace TagCloud.Infrastructure.Providers.Interfaces;
 
 public interface IImageSettingsProvider
 {

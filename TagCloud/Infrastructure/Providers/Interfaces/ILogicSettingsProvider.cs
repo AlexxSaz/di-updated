@@ -1,7 +1,4 @@
-﻿using System.Drawing;
-using TagCloud.Logic.PointGenerators;
-
-namespace TagCloud.Infrastructure.Providers.Interfaces;
+﻿namespace TagCloud.Infrastructure.Providers.Interfaces;
 
 public interface ILogicSettingsProvider
 {
